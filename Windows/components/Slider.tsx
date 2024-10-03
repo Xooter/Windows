@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     width: THUMB_SIZE,
     height: THUMB_SIZE,
     backgroundColor: "#87A2FF",
-    borderRadius: 8,
+    borderRadius: THUMB_SIZE / 2,
     zIndex: 9,
     position: "absolute",
   },

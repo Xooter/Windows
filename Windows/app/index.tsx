@@ -12,6 +12,13 @@ export default function Index() {
         progressValue={30}
         steps={5}
       />
+      <CustomSlider
+        minValue={0}
+        maxValue={100}
+        currentValue={100}
+        progressValue={30}
+        steps={5}
+      />
     </View>
   );
 }
