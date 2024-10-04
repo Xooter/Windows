@@ -9,6 +9,7 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     Suse: require("../assets/fonts/suse/SUSE-Regular.ttf"),
     SuseBold: require("../assets/fonts/suse/SUSE-Bold.ttf"),
+    SuseSemiBold: require("../assets/fonts/suse/SUSE-SemiBold.ttf"),
   });
 
   if (!fontsLoaded) return <View />;

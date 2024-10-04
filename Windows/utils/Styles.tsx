@@ -1,6 +1,7 @@
 export const Styles = {
   title: { fontFamily: "SuseBold", color: "#363636" },
-  subtitle: { fontFamily: "Suse", color: "#363636" },
+  subtitle: { fontFamily: "SuseSemiBold", color: "#363636" },
+  paragraph: { fontFamily: "Suse", color: "#363636" },
   shadow: {
     shadowColor: "#222",
     shadowOffset: {
