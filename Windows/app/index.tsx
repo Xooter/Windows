@@ -1,5 +1,5 @@
-import { SendButton } from "@/components/SendButton";
-import CustomSlider from "@/components/Slider";
+import { SendButton } from "@/components/UI/SendButton";
+import CustomSlider from "@/components/UI/Slider";
 import { WeatherNow } from "@/components/WeatherNow";
 import { View } from "react-native";
 import { TitleSlider } from "@/components/TitleSlider";

@@ -11,8 +11,8 @@ import { Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { Styles } from "@/utils/Styles";
 
 import Home from "./index";
-import Alarms from "./rules";
-import Rules from "./alarms";
+import Rules from "./rules";
+import Alarms from "./alarms";
 
 export default function RootLayout() {
   const insets = useSafeAreaInsets();
