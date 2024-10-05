@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Vibration,
 } from "react-native";
-import { Styles } from "../utils/Styles";
+import { Styles } from "../../utils/Styles";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { FontAwesome } from "@expo/vector-icons";
 
