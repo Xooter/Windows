@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Easing, Text, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  Easing,
+  Text,
+  TouchableOpacity,
+  Vibration,
+} from "react-native";
 import { Styles } from "../utils/Styles";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { FontAwesome } from "@expo/vector-icons";
@@ -30,6 +36,7 @@ export const SendButton = ({ text }: { text: string }) => {
   const Send = () => {
     if (loading) return;
 
+    Vibration.vibrate(50);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

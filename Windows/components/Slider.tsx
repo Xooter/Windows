@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, PanResponder, Animated } from "react-native";
+import {
+  View,
+  StyleSheet,
+  PanResponder,
+  Animated,
+  Vibration,
+} from "react-native";
 
 const THUMB_SIZE = 40;
 const BAR_SIZE = 30;
@@ -11,8 +17,12 @@ const CustomSlider = ({
   progressValue,
   steps,
 }: any) => {
-  const [thumbPosition, setThumbPosition] = useState(new Animated.Value(0));
-  const [thumbSize, setThumbSize] = useState(new Animated.Value(0));
+  const [thumbPosition, setThumbPosition] = useState<Animated.Value>(
+    new Animated.Value(0),
+  );
+  const [thumbSize, setThumbSize] = useState<Animated.Value>(
+    new Animated.Value(0),
+  );
 
   const [sliderWidth, setSliderWidth] = useState(0);
   const [initialThumbPos, setInitialThumbPos] = useState(0);
@@ -36,6 +46,7 @@ const CustomSlider = ({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
       thumbPosition.stopAnimation((value) => setInitialThumbPos(value));
+      Vibration.vibrate(30);
     },
     onPanResponderMove: (_, gestureState) => {
       const usableWidth = sliderWidth - BAR_SIZE / 2;
@@ -64,6 +75,7 @@ const CustomSlider = ({
       }).start();
     },
     onPanResponderRelease: () => {
+      Vibration.vibrate(30);
       Animated.spring(thumbSize, {
         toValue: 0.5,
         useNativeDriver: false,
