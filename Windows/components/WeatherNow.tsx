@@ -11,7 +11,7 @@ export const WeatherNow = () => {
 
   return (
     <View
-      className="flex-row bg-light items-center justify-between rounded-xl w-[90%] py-5 px-8 mt-14 mb-8"
+      className="flex-row bg-light items-center justify-between rounded-xl w-[90%] py-5 px-8 mt-20 mb-8"
       style={{ ...Styles.shadow, backgroundColor: "#f8faff" }}
     >
       <View>

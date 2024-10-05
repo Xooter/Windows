@@ -6,7 +6,7 @@ import { TitleSlider } from "@/components/TitleSlider";
 
 export default function Index() {
   return (
-    <View className="flex-col w-full h-screen items-center gap-y-5">
+    <View className="flex-col w-full h-full items-center gap-y-5">
       <WeatherNow />
       <TitleSlider text="Curtain" porcentage={25} />
       <CustomSlider

@@ -41,7 +41,7 @@ export const SendButton = ({ text }: { text: string }) => {
       activeOpacity={0.95}
       onPress={Send}
       style={{ ...Styles.shadow, backgroundColor: "#222" }}
-      className="p-5 rounded-xl mx-3 flex-row justify-center space-x-2 items-center w-[80%] mt-10"
+      className="p-5 rounded-xl mx-3 flex-row justify-center space-x-2 items-center w-[80%] mt-auto mb-24 h-20"
     >
       {loading ? (
         <Animated.View

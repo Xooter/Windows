@@ -1,7 +1,18 @@
-import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { View } from "react-native";
+import { ActivityIndicator, Platform, Text, View } from "react-native";
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import { TransitionPresets } from "@react-navigation/stack";
+const Tab = createBottomTabNavigator();
+import { Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Styles } from "@/utils/Styles";
+
+import Home from "./index";
+import Alarms from "./rules";
+import Rules from "./alarms";
 
 export default function RootLayout() {
   const insets = useSafeAreaInsets();
@@ -12,28 +23,88 @@ export default function RootLayout() {
     SuseSemiBold: require("../assets/fonts/suse/SUSE-SemiBold.ttf"),
   });
 
-  if (!fontsLoaded) return <View />;
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
 
-  var screenOptions = {
-    contentStyle: {
+  const commonTabBarOptions: BottomTabNavigationOptions = {
+    tabBarHideOnKeyboard: true,
+    tabBarStyle: {
+      display: "flex",
+      position: "absolute",
       backgroundColor: "#fff",
-      paddingTop: insets.top,
-      paddingBottom: insets.bottom,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
+      borderRadius: 10,
+      height: 80,
+      marginBottom: insets.bottom ? 0 : 15,
+      marginHorizontal: 20,
+      ...Styles.shadow,
     },
+    tabBarShowLabel: false,
+    headerShown: false,
+  };
+
+  const renderTabIcon = (
+    IconComponent: any,
+    iconName: string,
+    label: string,
+    size: number = 30,
+  ) => {
+    return ({ focused }: any) => (
+      <View
+        style={{ top: Platform.OS === "ios" ? 10 : 0, alignItems: "center" }}
+      >
+        <IconComponent
+          name={iconName}
+          size={size}
+          color={focused ? "#7881ff" : "#565656"}
+        />
+        <Text
+          style={{
+            ...Styles.subtitle,
+            fontSize: 15,
+            opacity: 0.8,
+            color: focused ? "#7881ff" : "#565656",
+          }}
+        >
+          {label}
+        </Text>
+      </View>
+    );
   };
 
   return (
-    <Stack
-      initialRouteName="index"
+    <Tab.Navigator
       screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
-        animation: "ios",
+        ...commonTabBarOptions,
+        ...TransitionPresets.SlideFromRightIOS,
       }}
+      initialRouteName="index"
     >
-      <Stack.Screen name="index" options={screenOptions} />
-    </Stack>
+      <Tab.Screen
+        name="alarms"
+        component={Alarms}
+        options={{
+          tabBarIcon: renderTabIcon(Ionicons, "alarm", "Alarm", 35),
+        }}
+      />
+      <Tab.Screen
+        name="index"
+        component={Home}
+        options={{
+          tabBarIcon: renderTabIcon(Entypo, "home", "Home"),
+        }}
+      />
+      <Tab.Screen
+        name="rules"
+        component={Rules}
+        options={{
+          tabBarIcon: renderTabIcon(FontAwesome5, "pencil-ruler", "Rules"),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
