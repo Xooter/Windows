@@ -1,5 +1,10 @@
 {
-  "alarms": [],
+  "curtain": 0,
+  "blind": 0,
+  "alarms": [
+    {
+      "id": 1
+    }
+  ],
   "rules": []
 }
-

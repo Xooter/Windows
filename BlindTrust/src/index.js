@@ -1,5 +1,5 @@
 import express from "express";
-import { initDB } from "./database.js";
+import { db, initDB } from "./database.js";
 import "dotenv/config";
 import alarmsRoutes from "./routes/alarmsRoutes.js";
 import rulesRoutes from "./routes/rulesRoutes.js";
@@ -13,7 +13,7 @@ app.use("/alarms", alarmsRoutes);
 app.use("/rules", rulesRoutes);
 
 app.get("/", (_req, res) => {
-  res.send("It's working!");
+  res.send({ curtain: db.data.curtain, blind: db.data.blind });
 });
 
 app.use((err, _req, res) => {

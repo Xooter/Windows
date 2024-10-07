@@ -7,7 +7,7 @@ export async function getAlarms(_req, res) {
 export async function createAlarm(req, res) {
   const newAlarm = req.body;
 
-  db.data.alarms.push(newRule);
+  db.data.alarms.push(newAlarm);
   db.write();
   res.send(newAlarm);
 }
