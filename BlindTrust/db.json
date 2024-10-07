@@ -3,7 +3,48 @@
   "blind": 0,
   "alarms": [
     {
-      "id": 1
+      "id": 1,
+      "curtain": 0.5,
+      "blind": 0.25,
+      "active": true,
+      "time": 1728323191439,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "one_time": false
+    },
+    {
+      "id": 2,
+      "curtain": 0.5,
+      "blind": 0.25,
+      "active": false,
+      "time": 1728333191439,
+      "days": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "one_time": true
+    },
+    {
+      "id": 3,
+      "curtain": 0.25,
+      "blind": 1,
+      "active": false,
+      "time": 1728322191439,
+      "days": [
+        1,
+        2,
+        4
+      ],
+      "one_time": false
     }
   ],
   "rules": []
