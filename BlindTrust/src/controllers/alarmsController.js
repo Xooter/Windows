@@ -12,6 +12,24 @@ export async function createAlarm(req, res) {
   res.send(newAlarm);
 }
 
+export async function activeAlarm(req, res) {
+  const { id } = req.params;
+
+  const alarmExists = db.data.alarms.find((a) => a.id == id);
+
+  if (!alarmExists) {
+    return res.sendStatus(404);
+  }
+
+  const index = db.data.alarms.indexOf(alarmExists);
+  if (index > -1) {
+    db.data.alarms[index].active = !alarmExists.active;
+    db.write();
+  }
+
+  res.send(id);
+}
+
 export async function deleteAlarm(req, res) {
   const { id } = req.params;
 

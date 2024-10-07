@@ -1,33 +1,36 @@
 import { ConditionContainer } from "@/components/ConditionContainer";
 import { TitleAdd } from "@/components/TitleAdd";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { BASE_BACK } from "../secrets";
 import { Alarm } from "@/models/Alarm";
 import { Styles } from "@/utils/Styles";
-import { useFocusEffect } from "@react-navigation/native";
 
 export default function Alarms() {
   const [alarms, setAlarms] = useState<Alarm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useFocusEffect(
-    useCallback(() => {
-      const getAllAlarms = async () => {
-        setLoading(true);
-        await axios
-          .get(`${BASE_BACK}/alarms`)
-          .then((response) => {
-            setAlarms(response.data);
-            console.log(response.data);
-          })
-          .finally(() => setLoading(false));
-      };
+  useEffect(() => {
+    const getAllAlarms = async () => {
+      setLoading(true);
+      await axios
+        .get(`${BASE_BACK}/alarms`)
+        .then((response) => {
+          setAlarms(response.data);
+          console.log(response.data);
+        })
+        .finally(() => setLoading(false));
+    };
 
-      getAllAlarms();
-    }, []),
-  );
+    getAllAlarms();
+  }, []);
+
+  const activeAlarm = async (id: number) => {
+    await axios.get(`${BASE_BACK}/alarms/active/${id}`).then((response) => {
+      console.log(response.data);
+    });
+  };
 
   const formatTime = (timeString: Date): string => {
     const date = new Date(timeString);
@@ -51,7 +54,7 @@ export default function Alarms() {
             one_time={alarm.one_time}
             active={alarm.active}
             onActive={() => {
-              //implementar activar alarma
+              activeAlarm(alarm.id);
             }}
           >
             <Text

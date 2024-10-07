@@ -37,7 +37,7 @@
       "id": 3,
       "curtain": 0.25,
       "blind": 1,
-      "active": false,
+      "active": true,
       "time": 1728322191439,
       "days": [
         1,
