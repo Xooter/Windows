@@ -4,15 +4,15 @@ import { Styles } from "@/utils/Styles";
 
 export const TitleAdd = ({
   title,
-  onAdd,
+  onPress,
 }: {
   title: string;
-  onAdd?: () => void;
+  onPress: () => void;
 }) => {
   return (
     <View className="flex-row items-center justify-between w-full mb-5 px-4">
       <Text style={{ ...Styles.title, fontSize: 55 }}>{title}</Text>
-      <AddButton />
+      <AddButton onPress={onPress} />
     </View>
   );
 };
