@@ -1,13 +1,30 @@
 import { Styles } from "@/utils/Styles";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { WEATHER_API } from "../secrets";
+import { WEATHER_URL } from "../secrets";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { weatherConditions } from "@/utils/WeatherConditions";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import axios from "axios";
+import { Weather } from "@/models/Weather";
 
 export const WeatherNow = () => {
-  useEffect(() => {}, []);
+  const [weather, setWeather] = useState<Weather | null>(null);
+
+  useEffect(() => {
+    const getCurrentWeather = async () => {
+      axios
+        .get(WEATHER_URL)
+        .then((response) => {
+          setWeather(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    getCurrentWeather();
+  }, []);
 
   return (
     <View
@@ -15,27 +32,44 @@ export const WeatherNow = () => {
       style={{ ...Styles.shadow, backgroundColor: "#f8faff" }}
     >
       <View>
-        <Text style={{ ...Styles.paragraph, fontSize: 20, opacity: 0.8 }}>
-          Sunny
+        <Text
+          style={{ ...Styles.paragraph, fontSize: 20, opacity: 0.8 }}
+          className="capitalize"
+        >
+          {weather?.weather[0].main}
         </Text>
         <View className="flex-row items-end">
-          <Text style={[styles.temperature]}>20ᵒ</Text>
+          <Text style={[styles.temperature]}>
+            {weather?.main.temp.toFixed(0)}ᵒ
+          </Text>
           <Text style={styles.temperatureMin}>/</Text>
-          <Text style={styles.temperatureMin}>12ᵒ</Text>
+          <Text style={styles.temperatureMin}>
+            {weather?.main.temp_min.toFixed(0)}ᵒ
+          </Text>
         </View>
 
         <View className="flex-row items-center gap-x-2">
           <FontAwesome6 name="wind" size={14} color="black" />
           <Text style={{ ...Styles.paragraph, fontSize: 20 }}>
-            <Text style={Styles.title}>40</Text> km/h
+            <Text style={Styles.title}>{weather?.wind.speed}</Text> km/h
           </Text>
         </View>
       </View>
 
       <MaterialCommunityIcons
         size={70}
-        name={weatherConditions["Clear"].icon as any}
-        color={weatherConditions["Clear"].color}
+        name={
+          weatherConditions[
+            (weather?.weather[0].main as keyof typeof weatherConditions) ||
+              "Snow"
+          ].icon as any
+        }
+        color={
+          weatherConditions[
+            (weather?.weather[0].main as keyof typeof weatherConditions) ||
+              "Snow"
+          ].color
+        }
       />
     </View>
   );
