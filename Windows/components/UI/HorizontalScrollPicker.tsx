@@ -21,25 +21,20 @@ export const HorizontalScrollPicker = ({
 }) => {
   const [value, setValue] = useState(defaultValue);
   const scrollViewRef = useRef<ScrollView | null>(null);
-  const isInitialMount = useRef(true);
 
   const generateNumbers = (limit: any) => {
     return Array.from({ length: limit }, (_, i) => i);
   };
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      if (scrollViewRef.current) {
-        isInitialMount.current = false;
-        const scrollToPosition = defaultValue * 70;
-        scrollViewRef.current.scrollTo({
-          x: scrollToPosition,
-          animated: false,
-        });
-      }
-    } else {
-      setValue(defaultValue);
+    if (scrollViewRef.current) {
+      const scrollToPosition = defaultValue * 70;
+      scrollViewRef.current.scrollTo({
+        x: scrollToPosition,
+        animated: false,
+      });
     }
+    setValue(defaultValue);
   }, [defaultValue]);
 
   return (
@@ -51,12 +46,11 @@ export const HorizontalScrollPicker = ({
       snapToInterval={70}
       decelerationRate="fast"
       onScroll={(e: NativeSyntheticEvent<NativeScrollEvent>) => {
-        if (isInitialMount.current) return;
         var index = (e.nativeEvent.contentOffset.x + 70 / 2) / 70;
         if (index < 1) {
           index = 0;
         } else {
-          index = Math.round(index);
+          index = Math.floor(index);
         }
         setValue(index);
         onValueChange(index);
