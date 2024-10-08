@@ -3,10 +3,11 @@ import { Entypo } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { Animated, Easing, TouchableOpacity } from "react-native";
 
-export const AddButton = () => {
+export const AddButton = ({ onPress }: { onPress: () => void }) => {
   const buttonScale = useRef(new Animated.Value(1)).current;
 
   const pressButton = () => {
+    onPress();
     Animated.sequence([
       Animated.timing(buttonScale, {
         toValue: 0.7,
