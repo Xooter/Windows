@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   View,
   StyleSheet,
@@ -15,14 +15,11 @@ const CustomSlider = ({
   maxValue,
   currentValue,
   progressValue,
+  onValueChange,
   steps,
 }: any) => {
-  const [thumbPosition, setThumbPosition] = useState<Animated.Value>(
-    new Animated.Value(0),
-  );
-  const [thumbSize, setThumbSize] = useState<Animated.Value>(
-    new Animated.Value(0),
-  );
+  let thumbPosition = useRef<Animated.Value>(new Animated.Value(0)).current;
+  let thumbSize = useRef<Animated.Value>(new Animated.Value(0.5)).current;
 
   const [sliderWidth, setSliderWidth] = useState(0);
   const [initialThumbPos, setInitialThumbPos] = useState(0);
@@ -30,60 +27,76 @@ const CustomSlider = ({
   const progressPercentage =
     ((progressValue - minValue) / (maxValue - minValue)) * 100;
 
+  const updateValue = (position: number) => {
+    const usableWidth = sliderWidth - BAR_SIZE / 2;
+    const stepSize = usableWidth / (steps - 1);
+    const snappedPosition = Math.round(position / stepSize) * stepSize;
+    const value =
+      minValue + (snappedPosition / usableWidth) * (maxValue - minValue);
+    const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
+    onValueChange(percentage);
+  };
+
   useEffect(() => {
     const usableWidth = sliderWidth - BAR_SIZE / 2;
     const initialPosition =
       ((currentValue - minValue) / (maxValue - minValue)) * usableWidth -
       THUMB_SIZE / 2;
 
-    setThumbPosition(new Animated.Value(initialPosition));
-    setThumbSize(new Animated.Value(0.5));
+    thumbPosition = new Animated.Value(initialPosition);
+    thumbSize = new Animated.Value(0.5);
     setInitialThumbPos(initialPosition);
-  }, [currentValue, sliderWidth]);
+  }, [currentValue]);
 
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderGrant: () => {
-      thumbPosition.stopAnimation((value) => setInitialThumbPos(value));
-      Vibration.vibrate(30);
-    },
-    onPanResponderMove: (_, gestureState) => {
-      const usableWidth = sliderWidth - BAR_SIZE / 2;
-      const newPosition = Math.max(
-        Math.min(initialThumbPos + gestureState.dx, sliderWidth),
-        0,
-      );
-      const stepSize = usableWidth / (steps - 1);
-      const snappedPosition = Math.max(
-        Math.round(newPosition / stepSize) * stepSize - THUMB_SIZE / 2,
-        0,
-      );
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+          thumbPosition.stopAnimation((value) => setInitialThumbPos(value));
+          Vibration.vibrate(30);
+        },
+        onPanResponderMove: (_, gestureState) => {
+          const usableWidth = sliderWidth - BAR_SIZE / 2;
+          const newPosition = Math.max(
+            Math.min(initialThumbPos + gestureState.dx, sliderWidth),
+            0,
+          );
+          const stepSize = usableWidth / (steps - 1);
+          const snappedPosition = Math.max(
+            Math.round(newPosition / stepSize) * stepSize - THUMB_SIZE / 2,
+            0,
+          );
 
-      Animated.spring(thumbPosition, {
-        toValue: snappedPosition,
-        useNativeDriver: false,
-        friction: 8,
-        tension: 100,
-      }).start();
+          updateValue(newPosition);
 
-      Animated.spring(thumbSize, {
-        toValue: 1,
-        useNativeDriver: false,
-        friction: 8,
-        tension: 100,
-      }).start();
-    },
-    onPanResponderRelease: () => {
-      Vibration.vibrate(30);
-      Animated.spring(thumbSize, {
-        toValue: 0.5,
-        useNativeDriver: false,
-        friction: 8,
-        tension: 100,
-      }).start();
-    },
-  });
+          Animated.spring(thumbPosition, {
+            toValue: snappedPosition,
+            useNativeDriver: false,
+            friction: 8,
+            tension: 100,
+          }).start();
+
+          Animated.spring(thumbSize, {
+            toValue: 1,
+            useNativeDriver: false,
+            friction: 8,
+            tension: 100,
+          }).start();
+        },
+        onPanResponderRelease: () => {
+          Vibration.vibrate(30);
+          Animated.spring(thumbSize, {
+            toValue: 0.5,
+            useNativeDriver: false,
+            friction: 8,
+            tension: 100,
+          }).start();
+        },
+      }),
+    [initialThumbPos],
+  );
 
   const renderStepLines = () => {
     const stepLines = [];
