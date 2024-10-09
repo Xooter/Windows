@@ -1,5 +1,5 @@
 import { Styles } from "@/utils/Styles";
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Modal,
@@ -19,21 +19,27 @@ const TimePickerModal = ({
   oneTime,
   setOneTime,
 }: any) => {
-  let hours = useRef(0).current;
-  let minutes = useRef(0).current;
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
 
   const selectTime = () => {
     onTimeSelected(hours, minutes);
     onClose();
   };
 
-  const changeHours = (value: number) => {
-    hours = value;
-  };
+  const changeHours = useCallback((value: number) => {
+    setHours(value);
+  }, []);
 
-  const changeMinutes = (value: number) => {
-    minutes = value;
-  };
+  const changeMinutes = useCallback((value: number) => {
+    setMinutes(value);
+  }, []);
+
+  useEffect(() => {
+    const [hour, min] = getTime();
+    setHours(hour);
+    setMinutes(min);
+  }, [visible, time]);
 
   function getTime(): number[] {
     const fechaActual = time;
@@ -80,7 +86,6 @@ const TimePickerModal = ({
             <AnimatedSwitch
               isOn={oneTime}
               onToggle={() => {
-                onTimeSelected(hours, minutes);
                 setOneTime((prev: boolean) => !prev);
               }}
             />
