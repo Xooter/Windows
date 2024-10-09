@@ -1,4 +1,20 @@
 import { ModelBase } from "./ModelBase";
 
-//TODO: implementar todo
-export type Rule = ModelBase & {};
+export enum RuleType {
+  WIND,
+  RAIN,
+  TEMPERATURE,
+}
+
+export enum RuleComparator {
+  LESS,
+  GREATER,
+}
+
+export type Rule = ModelBase & {
+  type: RuleType;
+  comparator: RuleComparator;
+  value: number;
+};
+
+export type RuleCreateDTO = Omit<Rule, "id" | "active">;
