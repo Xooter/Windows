@@ -1,5 +1,5 @@
 import { Styles } from "@/utils/Styles";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Modal,
@@ -18,7 +18,14 @@ const TimePickerModal = ({
   time,
   oneTime,
   setOneTime,
-}: any) => {
+}: {
+  visible: boolean;
+  onClose: () => void;
+  onTimeSelected: (hours: number, minutes: number) => void;
+  time: Date;
+  oneTime: boolean;
+  setOneTime: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
 

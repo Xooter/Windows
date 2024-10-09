@@ -13,7 +13,12 @@ const AnimatedSwitch = ({
   onToggle,
   switchWidth = 60,
   switchHeight = 30,
-}: any) => {
+}: {
+  isOn: boolean;
+  onToggle: (value: boolean) => void;
+  switchWidth?: number;
+  switchHeight?: number;
+}) => {
   const [switchState, setSwitchState] = useState(isOn);
   const animatedValue = useRef(new Animated.Value(isOn ? 1 : 0)).current;
 

@@ -178,6 +178,21 @@
       ],
       "one_time": false,
       "id": 13
+    },
+    {
+      "curtain": 1,
+      "blind": 0.5,
+      "active": true,
+      "time": 1728435545982,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "one_time": false,
+      "id": 14
     }
   ],
   "rules": []

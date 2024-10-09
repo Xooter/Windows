@@ -11,6 +11,7 @@ import { AddAlarm } from "@/components/AddAlarm";
 export default function Alarms() {
   const [alarms, setAlarms] = useState<Alarm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [deletedAlarm, setDeletedAlarm] = useState<number>(-1);
 
   const [isAddVisible, setIsAddVisible] = useState<boolean>(false);
 
@@ -21,7 +22,6 @@ export default function Alarms() {
         .get(`${BASE_BACK}/alarms`)
         .then((response) => {
           setAlarms(response.data);
-          console.log(response.data);
         })
         .finally(() => setLoading(false));
     };

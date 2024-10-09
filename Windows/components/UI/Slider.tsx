@@ -17,7 +17,14 @@ const CustomSlider = ({
   progressValue,
   onValueChange,
   steps,
-}: any) => {
+}: {
+  minValue: number;
+  maxValue: number;
+  currentValue: number;
+  progressValue: number;
+  onValueChange: (value: number) => void;
+  steps: number;
+}) => {
   let thumbPosition = useRef<Animated.Value>(new Animated.Value(0)).current;
   let thumbSize = useRef<Animated.Value>(new Animated.Value(0.5)).current;
 
