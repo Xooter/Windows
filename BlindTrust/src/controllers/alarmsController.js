@@ -23,7 +23,7 @@ function getMaxId() {
 export async function activeAlarm(req, res) {
   const { id } = req.params;
 
-  const alarmExists = db.data.alarms.find((a) => a.id == id);
+  const alarmExists = getAlarmById(id);
 
   if (!alarmExists) {
     return res.sendStatus(404);
