@@ -1,4 +1,5 @@
 import { db } from "../database.js";
+import { getItemById, getMaxId } from "../utils.js";
 
 export async function getAlarms(_req, res) {
   res.send(db.data.alarms);
@@ -7,7 +8,7 @@ export async function getAlarms(_req, res) {
 export async function createAlarm(req, res) {
   const newAlarm = req.body;
 
-  const maxId = getMaxId();
+  const maxId = getMaxId("alarms");
   newAlarm.id = maxId + 1;
   newAlarm.active = true;
 
@@ -16,14 +17,10 @@ export async function createAlarm(req, res) {
   res.send(newAlarm);
 }
 
-function getMaxId() {
-  return db.data.alarms.reduce((max, alarm) => Math.max(max, alarm.id), 0);
-}
-
 export async function activeAlarm(req, res) {
   const { id } = req.params;
 
-  const alarmExists = getAlarmById(id);
+  const alarmExists = getItemById("alarms", id);
 
   if (!alarmExists) {
     return res.sendStatus(404);
@@ -41,7 +38,7 @@ export async function activeAlarm(req, res) {
 export async function deleteAlarm(req, res) {
   const { id } = req.params;
 
-  const alarmExists = getAlarmById(id);
+  const alarmExists = getItemById("alarms", id);
 
   if (!alarmExists) {
     return res.sendStatus(404);

@@ -6,7 +6,7 @@
       "id": 2,
       "curtain": 0.5,
       "blind": 0.25,
-      "active": false,
+      "active": true,
       "time": 1728333191439,
       "days": [
         1,
@@ -19,7 +19,7 @@
     {
       "curtain": 1,
       "blind": 1,
-      "active": true,
+      "active": false,
       "time": 1728432162472,
       "days": [
         0,
@@ -61,7 +61,7 @@
       ],
       "one_time": false,
       "id": 8,
-      "active": true
+      "active": false
     }
   ],
   "rules": []
