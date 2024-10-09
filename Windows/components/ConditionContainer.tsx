@@ -57,7 +57,7 @@ export const ConditionContainer = memo(
               style={{
                 ...Styles.title,
                 fontSize: 18,
-                opacity: one_time ? 0.2 : 1,
+                opacity: !one_time ? 0.2 : 1,
               }}
             >
               One Time
