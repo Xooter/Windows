@@ -50,7 +50,7 @@ export const DayButton = ({
           Styles.shadow,
           {
             elevation: 3,
-            borderColor: selected ? "#7881ff" : "#3c3c3c",
+            borderColor: selected ? "#87A2FF" : "#3c3c3c",
             backgroundColor: selected ? "#dee8ff" : "#fff",
             borderRadius: 15,
             transform: [{ scale: buttonScale }],
@@ -61,7 +61,7 @@ export const DayButton = ({
           style={{
             ...Styles.subtitle,
             fontSize: 25,
-            color: selected ? "#7881ff" : "#3c3c3c",
+            color: selected ? "#87A2FF" : "#3c3c3c",
           }}
         >
           {text}

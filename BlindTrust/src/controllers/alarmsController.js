@@ -7,6 +7,13 @@ export async function getAlarms(_req, res) {
 export async function createAlarm(req, res) {
   const newAlarm = req.body;
 
+  const maxId = db.data.alarms.reduce(
+    (max, alarm) => Math.max(max, alarm.id),
+    0,
+  );
+
+  newAlarm.id = maxId + 1;
+
   db.data.alarms.push(newAlarm);
   db.write();
   res.send(newAlarm);

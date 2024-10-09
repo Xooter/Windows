@@ -14,6 +14,7 @@ export default function Index() {
         maxValue={100}
         currentValue={100}
         progressValue={25}
+        onValueChange={(value: number) => {}}
         steps={5}
       />
       <TitleSlider text="Blind" porcentage={50} />
@@ -22,6 +23,7 @@ export default function Index() {
         maxValue={100}
         currentValue={25}
         progressValue={50}
+        onValueChange={(value: number) => {}}
         steps={5}
       />
       <SendButton text="Send" />

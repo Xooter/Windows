@@ -8,6 +8,7 @@ import {
   Easing,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Vibration,
 } from "react-native";
 
 export const HorizontalScrollPicker = ({
@@ -47,13 +48,19 @@ export const HorizontalScrollPicker = ({
       decelerationRate="fast"
       onScroll={(e: NativeSyntheticEvent<NativeScrollEvent>) => {
         var index = (e.nativeEvent.contentOffset.x + 70 / 2) / 70;
+
         if (index < 1) {
           index = 0;
         } else {
           index = Math.floor(index);
         }
+
         setValue(index);
         onValueChange(index);
+
+        if (index !== value) {
+          Vibration.vibrate(5);
+        }
       }}
       scrollEventThrottle={20}
     >
