@@ -19,7 +19,11 @@ export const weatherConditions = {
     title: "Clouds",
     icon: "weather-cloudy",
   },
-
+  Fog: {
+    color: "#076585",
+    title: "Fog",
+    icon: "weather-fog",
+  },
   Snow: {
     color: "#00d2ff",
     title: "Snow",
