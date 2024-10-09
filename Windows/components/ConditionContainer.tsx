@@ -53,25 +53,27 @@ export const ConditionContainer = memo(
           className="w-[95%] p-5 rounded-xl flex-col mb-4"
         >
           <View className="flex-row justify-between items-center">
-            <Text
-              style={{
-                ...Styles.title,
-                fontSize: 18,
-                opacity: !one_time ? 0.2 : 1,
-              }}
-            >
-              One Time
-            </Text>
-
+            {one_time !== undefined && (
+              <Text
+                style={{
+                  ...Styles.title,
+                  fontSize: 18,
+                  opacity: !one_time ? 0.2 : 1,
+                }}
+              >
+                One Time
+              </Text>
+            )}
             <View className="flex-row items-center gap-x-1">
-              {days_week.map((_: string, index: number) => (
-                <FontAwesome
-                  key={index}
-                  name="circle"
-                  size={9}
-                  color={days?.includes(index) ? "#87A2FF" : "#dee8ff"}
-                />
-              ))}
+              {days !== undefined &&
+                days_week.map((_: string, index: number) => (
+                  <FontAwesome
+                    key={index}
+                    name="circle"
+                    size={9}
+                    color={days?.includes(index) ? "#87A2FF" : "#dee8ff"}
+                  />
+                ))}
             </View>
           </View>
           <View className="flex-row justify-between items-center">
