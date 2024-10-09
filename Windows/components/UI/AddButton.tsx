@@ -1,10 +1,18 @@
 import { Styles } from "@/utils/Styles";
 import { Entypo } from "@expo/vector-icons";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Animated, Easing, TouchableOpacity } from "react-native";
 
-export const AddButton = ({ onPress }: { onPress: () => void }) => {
+export const AddButton = ({
+  onPress,
+  itemSelected,
+}: {
+  onPress: () => void;
+  itemSelected: number;
+}) => {
   const buttonScale = useRef(new Animated.Value(1)).current;
+
+  const iconRotation = useRef(new Animated.Value(0)).current;
 
   const pressButton = () => {
     onPress();
@@ -24,6 +32,20 @@ export const AddButton = ({ onPress }: { onPress: () => void }) => {
     ]).start();
   };
 
+  useEffect(() => {
+    Animated.timing(iconRotation, {
+      toValue: itemSelected !== -1 ? 1 : 0,
+      duration: 350,
+      useNativeDriver: true,
+      easing: Easing.elastic(3),
+    }).start();
+  }, [itemSelected]);
+
+  const spin = iconRotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "45deg"],
+  });
+
   return (
     <TouchableOpacity activeOpacity={0.95} onPress={pressButton}>
       <Animated.View
@@ -31,10 +53,12 @@ export const AddButton = ({ onPress }: { onPress: () => void }) => {
         style={[
           { transform: [{ scale: buttonScale }] },
           Styles.shadow,
-          { backgroundColor: "#222" },
+          { backgroundColor: itemSelected !== -1 ? "#EB3678" : "#222" },
         ]}
       >
-        <Entypo name="plus" size={24} color="#fff" />
+        <Animated.View style={{ transform: [{ rotate: spin }] }}>
+          <Entypo name="plus" size={24} color="#fff" />
+        </Animated.View>
       </Animated.View>
     </TouchableOpacity>
   );

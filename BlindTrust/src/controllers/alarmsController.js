@@ -13,6 +13,7 @@ export async function createAlarm(req, res) {
   );
 
   newAlarm.id = maxId + 1;
+  newAlarm.active = true;
 
   db.data.alarms.push(newAlarm);
   db.write();

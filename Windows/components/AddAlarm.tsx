@@ -8,7 +8,7 @@ import CustomSlider from "./UI/Slider";
 import { Styles } from "@/utils/Styles";
 import axios from "axios";
 import { BASE_BACK } from "@/secrets";
-import { Alarm } from "@/models/Alarm";
+import { Alarm, AlarmCreateDTO } from "@/models/Alarm";
 
 export const AddAlarm = ({
   isAddVisible,
@@ -59,10 +59,9 @@ export const AddAlarm = ({
   };
 
   const onNew = () => {
-    const newAlarm: Omit<Alarm, "id"> = {
+    const newAlarm: AlarmCreateDTO = {
       curtain: curtain / 100,
       blind: blind / 100,
-      active: true,
       time: time.getTime(),
       days: daysSelected,
       one_time: oneTime,

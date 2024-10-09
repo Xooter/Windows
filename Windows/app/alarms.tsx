@@ -1,8 +1,14 @@
 import { ConditionContainer } from "@/components/ConditionContainer";
 import { TitleAdd } from "@/components/TitleAdd";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { memo, useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  Vibration,
+  View,
+} from "react-native";
 import { BASE_BACK } from "../secrets";
 import { Alarm } from "@/models/Alarm";
 import { Styles } from "@/utils/Styles";
@@ -30,9 +36,7 @@ export default function Alarms() {
   }, []);
 
   const activeAlarm = async (id: number) => {
-    await axios.get(`${BASE_BACK}/alarms/active/${id}`).then((response) => {
-      console.log(response.data);
-    });
+    await axios.get(`${BASE_BACK}/alarms/active/${id}`);
   };
 
   const formatTime = (timeString: number): string => {
@@ -48,13 +52,42 @@ export default function Alarms() {
     setAlarms([...alarms, alarm]);
   };
 
+  const deleteAlarm = async () => {
+    if (deletedAlarm === -1) return;
+
+    await axios
+      .delete(`${BASE_BACK}/alarms/${deletedAlarm}`)
+      .then((response) => {
+        setDeletedAlarm(-1);
+        setAlarms(alarms.filter((alarm) => alarm.id !== response.data));
+      });
+  };
+
+  const selectAlarm = (id: number) => {
+    if (deletedAlarm === id) return;
+    Vibration.vibrate(100);
+    setDeletedAlarm(id);
+  };
+
+  const deselectAlarm = (id: number) => {
+    if (deletedAlarm === -1) return;
+    if (deletedAlarm == id) {
+      setDeletedAlarm(-1);
+    }
+  };
+
   return (
     <View className="flex-col w-full h-full items-center pt-14">
       <TitleAdd
         title="Alarm"
         onPress={() => {
-          setIsAddVisible(true);
+          if (deletedAlarm === -1) {
+            setIsAddVisible(true);
+          } else {
+            deleteAlarm();
+          }
         }}
+        itemSelected={deletedAlarm}
       />
 
       {!loading ? (
@@ -67,7 +100,7 @@ export default function Alarms() {
           }}
         >
           {alarms.map((alarm) => (
-            <ConditionContainer
+            <MemoizedCard
               key={alarm.id}
               blind={alarm.blind}
               curtain={alarm.curtain}
@@ -77,14 +110,25 @@ export default function Alarms() {
               onActive={() => {
                 activeAlarm(alarm.id);
               }}
+              onLongPress={() => {
+                selectAlarm(alarm.id);
+              }}
+              onPress={() => {
+                deselectAlarm(alarm.id);
+              }}
+              selected={deletedAlarm === alarm.id}
             >
               <Text
-                style={{ ...Styles.title, fontSize: 35, color: "#7881ff" }}
+                style={{
+                  ...Styles.title,
+                  fontSize: 35,
+                  color: deletedAlarm !== alarm.id ? "#7881ff" : "#EB3678",
+                }}
                 className="capitalize"
               >
                 {formatTime(alarm.time)}
               </Text>
-            </ConditionContainer>
+            </MemoizedCard>
           ))}
         </ScrollView>
       ) : (
@@ -101,3 +145,7 @@ export default function Alarms() {
     </View>
   );
 }
+
+export const MemoizedCard = memo(ConditionContainer, (prevProps, nextProps) => {
+  return prevProps.selected === nextProps.selected;
+});
