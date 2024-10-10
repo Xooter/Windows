@@ -1,5 +1,4 @@
 import { RuleType } from "@/models/Rule";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRef } from "react";
 import {
   TouchableWithoutFeedback,
@@ -26,7 +25,7 @@ export const RulePickerButton = ({
 
     Animated.sequence([
       Animated.timing(buttonScale, {
-        toValue: 0.7,
+        toValue: 0.8,
         duration: 100,
         useNativeDriver: true,
         easing: Easing.elastic(1),
@@ -45,7 +44,7 @@ export const RulePickerButton = ({
       <Animated.View
         style={{
           borderColor: typeColor(type),
-          borderWidth: 5,
+          borderWidth: 10,
           transform: [{ scale: buttonScale }],
         }}
         className="aspect-square flex items-center justify-center rounded-full p-5"

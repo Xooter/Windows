@@ -1,7 +1,7 @@
 import { ConditionContainer } from "@/components/ConditionContainer";
 import { TitleAdd } from "@/components/TitleAdd";
 import axios from "axios";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   ScrollView,
