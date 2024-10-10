@@ -66,24 +66,6 @@
   ],
   "rules": [
     {
-      "id": 1,
-      "curtain": 0.25,
-      "blind": 1,
-      "active": true,
-      "type": 0,
-      "comparator": 0,
-      "value": 30
-    },
-    {
-      "id": 2,
-      "curtain": 0.25,
-      "blind": 1,
-      "active": true,
-      "type": 1,
-      "comparator": -1,
-      "value": -1
-    },
-    {
       "curtain": 0.5,
       "blind": 0.25,
       "active": true,
@@ -93,39 +75,12 @@
       "id": 3
     },
     {
-      "curtain": 0,
-      "blind": 0,
-      "type": 0,
-      "comparator": 0,
-      "value": 0,
-      "id": 4,
-      "active": true
-    },
-    {
-      "curtain": 25,
-      "blind": 50,
-      "type": 0,
-      "comparator": 0,
-      "value": 6,
-      "id": 5,
-      "active": true
-    },
-    {
       "curtain": 1,
       "blind": 0.5,
       "type": 1,
       "comparator": 0,
       "value": 9,
       "id": 6,
-      "active": true
-    },
-    {
-      "curtain": 0.75,
-      "blind": 0,
-      "type": 0,
-      "comparator": 0,
-      "value": 0,
-      "id": 7,
       "active": true
     }
   ]

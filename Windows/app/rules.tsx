@@ -53,12 +53,10 @@ export default function Rules() {
   const deleteRule = async () => {
     if (deletedRule === -1) return;
 
-    await axios
-      .delete(`${BASE_BACK}/alarms/${deletedRule}`)
-      .then((response) => {
-        setDeletedRule(-1);
-        setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));
-      });
+    await axios.delete(`${BASE_BACK}/rules/${deletedRule}`).then((response) => {
+      setDeletedRule(-1);
+      setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));
+    });
   };
 
   return (
