@@ -59,7 +59,7 @@ export default function Alarms() {
       .delete(`${BASE_BACK}/alarms/${deletedAlarm}`)
       .then((response) => {
         setDeletedAlarm(-1);
-        setAlarms(alarms.filter((alarm) => alarm.id !== response.data));
+        setAlarms((prev) => prev.filter((alarm) => alarm.id !== response.data));
       });
   };
 

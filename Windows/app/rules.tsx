@@ -51,14 +51,14 @@ export default function Rules() {
   };
 
   const deleteRule = async () => {
-    // if (deletedAlarm === -1) return;
-    //
-    // await axios
-    //   .delete(`${BASE_BACK}/alarms/${deletedAlarm}`)
-    //   .then((response) => {
-    //     setDeletedAlarm(-1);
-    //     setAlarms(alarms.filter((alarm) => alarm.id !== response.data));
-    //   });
+    if (deletedRule === -1) return;
+
+    await axios
+      .delete(`${BASE_BACK}/alarms/${deletedRule}`)
+      .then((response) => {
+        setDeletedRule(-1);
+        setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));
+      });
   };
 
   return (
