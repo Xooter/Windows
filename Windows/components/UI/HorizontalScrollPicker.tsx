@@ -1,5 +1,5 @@
 import { Styles } from "@/utils/Styles";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import {
   StyleSheet,
   Animated,
@@ -27,6 +27,9 @@ export const HorizontalScrollPicker = memo(
     const generateNumbers = (limit: any) => {
       return Array.from({ length: limit }, (_, i) => i);
     };
+
+    const numbers = useMemo(() => generateNumbers(limit), [limit]);
+    const animScales = useRef(numbers.map(() => new Animated.Value(1))).current;
 
     useEffect(() => {
       if (scrollViewRef.current) {
@@ -59,21 +62,21 @@ export const HorizontalScrollPicker = memo(
           setValue(index);
           onValueChange(index);
 
-          if (index !== value) {
+          if (Math.round(index) !== Math.round(value)) {
             Vibration.vibrate(5);
           }
         }}
-        scrollEventThrottle={20}
+        scrollEventThrottle={10}
       >
-        {generateNumbers(limit).map((num) => {
-          const animScale = useRef(new Animated.Value(1)).current;
-
-          Animated.timing(animScale, {
-            toValue: value == num ? 2 : 1,
-            duration: 200,
-            useNativeDriver: true,
-            easing: Easing.elastic(3),
-          }).start();
+        {numbers.map((num) => {
+          useEffect(() => {
+            Animated.timing(animScales[num], {
+              toValue: value === num ? 2 : 1,
+              duration: 200,
+              useNativeDriver: true,
+              easing: Easing.elastic(3),
+            }).start();
+          }, [value, num]);
 
           return (
             <View
@@ -94,7 +97,7 @@ export const HorizontalScrollPicker = memo(
                         ? 1
                         : 0.2,
                     color: value == num ? "#7881ff" : "#3c3c3c",
-                    transform: [{ scale: animScale }],
+                    transform: [{ scale: animScales[num] }],
                   },
                 ]}
               >
