@@ -4,6 +4,10 @@ import "dotenv/config";
 import alarmsRoutes from "./routes/alarmsRoutes.js";
 import rulesRoutes from "./routes/rulesRoutes.js";
 
+import cron from "node-cron";
+import { checkTimeBasedAlarms } from "./alarmScheduler.js";
+import { checkWeatherBasedRules } from "./ruleScheduler.js";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,5 +28,19 @@ app.use((err, _req, res) => {
 initDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running... http://localhost:${PORT}`);
+  });
+});
+
+cron.schedule("* * * * *", () => {
+  console.log("Checking alamrs...");
+  checkTimeBasedAlarms().catch((error) => {
+    console.error("Error checkTimeBasedAlarms:", error);
+  });
+});
+
+cron.schedule("*/2 * * * *", () => {
+  console.log("Checking rules...");
+  checkWeatherBasedRules().catch((error) => {
+    console.error("Error checkWeatherBasedRules:", error);
   });
 });

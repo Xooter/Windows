@@ -1,0 +1,74 @@
+import { db } from "./database.js";
+import { RULE_TYPES, COMPARATORS } from "./utils.js";
+
+let lastWeather;
+
+export async function checkWeatherBasedRules() {
+  await db.read();
+  const { rules } = db.data;
+
+  const weather = {
+    temperature: 25,
+    rain: true,
+  }; //await getWeatherConditions();
+
+  lastWeather = weather;
+
+  for (const rule of rules) {
+    if (!rule.active) continue;
+
+    let conditionMet = checkConditionRule(rule);
+
+    if (conditionMet) {
+      console.log(`Rule ${rule.id} applies`);
+
+      if (db.data.curtain !== rule.curtain) {
+        //// TODO:
+        //sendCommand("curtain", rule.curtain);
+        db.data.curtain = rule.curtain;
+      }
+
+      if (db.data.blind !== rule.blind) {
+        //// TODO:
+        //sendCommand("blind", rule.blind);
+        db.data.blind = rule.blind;
+      }
+    }
+  }
+
+  await db.write();
+}
+
+export function checkConditionRule(rule) {
+  if (!lastWeather) {
+    console.warn("There is no weather data to check the rule");
+    return false;
+  }
+
+  switch (rule.type) {
+    case RULE_TYPES.WIND:
+      return lastWeather.windSpeed > rule.value;
+    case RULE_TYPES.TEMPERATURE:
+      return evaluateCondition(
+        lastWeather.temperature,
+        rule.comparator,
+        rule.value,
+      );
+    case RULE_TYPES.RAIN:
+      return lastWeather.rain;
+    default:
+      console.warn(`Rule type unknow: ${rule.type}`);
+      return false;
+  }
+}
+
+function evaluateCondition(actual, comparator, target) {
+  switch (comparator) {
+    case COMPARATORS.LESS_THAN:
+      return actual < target;
+    case COMPARATORS.GREATER_THAN:
+      return actual > target;
+    default:
+      return false;
+  }
+}
