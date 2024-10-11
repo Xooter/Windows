@@ -5,7 +5,7 @@ import { Vibration, View } from "react-native";
 import { TitleSlider } from "@/components/TitleSlider";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_BACK } from "@/secrets";
+import { BASE_BACK } from "@env";
 
 export default function Index() {
   type CurrentValues = {

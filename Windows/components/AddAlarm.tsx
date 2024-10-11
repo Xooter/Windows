@@ -7,7 +7,7 @@ import { TitleSlider } from "./TitleSlider";
 import CustomSlider from "./UI/Slider";
 import { Styles } from "@/utils/Styles";
 import axios from "axios";
-import { BASE_BACK } from "@/secrets";
+import { BASE_BACK } from "@env";
 import { Alarm, AlarmCreateDTO } from "@/models/Alarm";
 
 export const AddAlarm = ({

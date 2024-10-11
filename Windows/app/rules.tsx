@@ -3,7 +3,7 @@ import { ConditionContainer } from "@/components/ConditionContainer";
 import { TitleAdd } from "@/components/TitleAdd";
 import { RulesTitleCard } from "@/components/UI/RulesTitleCard";
 import { Rule } from "@/models/Rule";
-import { BASE_BACK } from "@/secrets";
+import { BASE_BACK } from "@env";
 import axios from "axios";
 import { memo, useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Vibration, View } from "react-native";

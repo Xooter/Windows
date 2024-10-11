@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { Animated, Easing, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Easing, TouchableOpacity, View } from "react-native";
 import { AddModal } from "./AddModal";
 import { TitleSlider } from "./TitleSlider";
 import CustomSlider from "./UI/Slider";
 import axios from "axios";
-import { BASE_BACK } from "@/secrets";
+import { BASE_BACK } from "@env";
 import { Rule, RuleComparator, RuleCreateDTO, RuleType } from "@/models/Rule";
 import RulePickerModal from "./UI/RulePickerModal";
 import { RulesTitleCard } from "./UI/RulesTitleCard";

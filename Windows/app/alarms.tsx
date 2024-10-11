@@ -9,7 +9,7 @@ import {
   Vibration,
   View,
 } from "react-native";
-import { BASE_BACK } from "../secrets";
+import { BASE_BACK } from "@env";
 import { Alarm } from "@/models/Alarm";
 import { Styles } from "@/utils/Styles";
 import { AddAlarm } from "@/components/AddAlarm";
