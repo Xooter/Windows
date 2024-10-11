@@ -1,12 +1,7 @@
 import { Styles } from "@/utils/Styles";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import {
-  WEATHER_COORDS_LAT,
-  WEATHER_COORDS_LON,
-  WEATHER_API,
-  WEATHER_COORDS,
-} from "@env";
+import { WEATHER_COORDS_LAT, WEATHER_COORDS_LON, WEATHER_API } from "@env";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { weatherConditions } from "@/utils/WeatherConditions";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";

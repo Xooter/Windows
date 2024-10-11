@@ -23,14 +23,14 @@
       "package": "com.tetranovalgina.Windows",
       "versionCode": 3
     },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/icon.png"
+    },
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      }
     }
   }
 }
