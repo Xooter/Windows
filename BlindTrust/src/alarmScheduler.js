@@ -1,5 +1,6 @@
 import { db } from "./database.js";
 import { checkConditionRule } from "./ruleScheduler.js";
+import { setCurtain } from "./controllers/hardwareController.js";
 
 export async function checkTimeBasedAlarms() {
   await db.read();
@@ -28,7 +29,7 @@ export async function checkTimeBasedAlarms() {
 
     if (alarmTimeFormatted === formattedTime) {
       if (db.data.curtain !== alarm.curtain) {
-        //sendCommand("curtain", alarm.curtain);
+        setCurtain(alarm.curtain);
       }
 
       if (db.data.blind !== alarm.blind) {

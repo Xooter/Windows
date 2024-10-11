@@ -1,4 +1,5 @@
 import { db } from "../database.js";
+import axios from "axios";
 
 // [HARDWARE API]
 // {API_URL}/cortina POST {"steps": number}
@@ -46,7 +47,7 @@ export async function setCurtain(value, callback = () => {}) {
 
   if (steps === 0) return;
 
-  const movementTime = getCurtainMovementTime(curtain * 100, value * 100);
+  const movementTime = getCurtainMovementTime(curtain, value);
   console.log(`Moving curtain ${steps} steps in ${movementTime} seconds`);
 
   if (steps > 0) {

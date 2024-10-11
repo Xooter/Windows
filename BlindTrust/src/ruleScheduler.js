@@ -1,5 +1,6 @@
 import { db } from "./database.js";
 import { RULE_TYPES, COMPARATORS } from "./utils.js";
+import { setCurtain } from "./controllers/hardwareController.js";
 
 let lastWeather;
 
@@ -23,8 +24,7 @@ export async function checkWeatherBasedRules() {
       console.log(`Rule ${rule.id} applies`);
 
       if (db.data.curtain !== rule.curtain) {
-        //// TODO:
-        //sendCommand("curtain", rule.curtain);
+        setCurtain(alarm.curtain);
       }
 
       if (db.data.blind !== rule.blind) {
