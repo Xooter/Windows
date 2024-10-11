@@ -1,7 +1,7 @@
 import { SendButton } from "@/components/UI/SendButton";
 import CustomSlider from "@/components/UI/Slider";
 import { WeatherNow } from "@/components/WeatherNow";
-import { View } from "react-native";
+import { Vibration, View } from "react-native";
 import { TitleSlider } from "@/components/TitleSlider";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -15,6 +15,7 @@ export default function Index() {
 
   const [blindValue, setBlindValue] = useState<number>(0);
   const [curtainValue, setCurtainValue] = useState<number>(0);
+  const [sending, setSending] = useState<boolean>(false);
 
   const [currentValues, setCurrentValues] = useState<CurrentValues>({
     curtain: 0,
@@ -32,8 +33,26 @@ export default function Index() {
     getInfo();
   }, []);
 
+  const sendValues = async () => {
+    const dataValues = {
+      curtain: curtainValue / 100,
+      blind: blindValue / 100,
+    };
+    setSending(true);
+    axios
+      .post(`${BASE_BACK}`, dataValues)
+      .then((response) => {
+        Vibration.vibrate([100, 1, 100, 1]);
+        console.log(response.data);
+        setCurrentValues(dataValues);
+      })
+      .finally(() => {
+        setSending(false);
+      });
+  };
+
   return (
-    <View className="flex-col w-full h-full items-center gap-y-5">
+    <View className="flex-col h-full items-center gap-y-5">
       <WeatherNow />
       <TitleSlider text="Curtain" porcentage={curtainValue} />
       <CustomSlider
@@ -57,7 +76,7 @@ export default function Index() {
         }}
         steps={5}
       />
-      <SendButton text="Send" />
+      <SendButton text="Send" loading={sending} onPress={sendValues} />
     </View>
   );
 }

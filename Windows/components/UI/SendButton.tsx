@@ -10,11 +10,17 @@ import { Styles } from "../../utils/Styles";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { FontAwesome } from "@expo/vector-icons";
 
-export const SendButton = ({ text }: { text: string }) => {
+export const SendButton = ({
+  text,
+  loading,
+  onPress,
+}: {
+  text: string;
+  loading: boolean;
+  onPress: () => void;
+}) => {
   const rotationDegree = useRef(new Animated.Value(0)).current;
   const buttonWidth = useRef(new Animated.Value(300)).current;
-
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const WITH_ANIMATION_DURATION = 300;
@@ -57,10 +63,7 @@ export const SendButton = ({ text }: { text: string }) => {
     if (loading) return;
 
     Vibration.vibrate(50);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    onPress();
   };
 
   return (

@@ -140,7 +140,10 @@ const CustomSlider = ({
       <View
         style={[
           styles.progressBarBackground,
-          { width: `${progressPercentage}%` },
+          {
+            width: `${progressPercentage * 100}%`,
+            opacity: progressPercentage * 100 == 0 ? 0 : 1,
+          },
         ]}
       />
 
