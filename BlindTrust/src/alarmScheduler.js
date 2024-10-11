@@ -18,23 +18,21 @@ export async function checkTimeBasedAlarms() {
 
   for (const alarm of alarms) {
     if (!alarm.active) continue;
-    if (!alarm.time) continue;
-    if (!alarm.one_time && (!alarm.days || !alarm.days.includes(currentDay)))
-      continue;
+    if (!alarm.days || !alarm.days.includes(currentDay)) continue;
 
     const alarmDate = new Date(alarm.time);
     const alarmTimeFormatted = convertTime(alarmDate);
-    console.log(`Comparing ${alarmTimeFormatted} - ${formattedTime}`);
+    console.log(
+      `Comparing ${alarmTimeFormatted} - ${formattedTime} // ${currentDay}`,
+    );
 
     if (alarmTimeFormatted === formattedTime) {
       if (db.data.curtain !== alarm.curtain) {
         //sendCommand("curtain", alarm.curtain);
-        db.data.curtain = alarm.curtain;
       }
 
       if (db.data.blind !== alarm.blind) {
         //sendCommand("blind", alarm.blind);
-        db.data.blind = alarm.blind;
       }
 
       console.log(`Alarm ${alarm.id} applies`);
@@ -43,6 +41,9 @@ export async function checkTimeBasedAlarms() {
       if (alarm.one_time) {
         alarm.active = false;
       }
+
+      await db.write();
+      return;
     }
   }
   await db.write();

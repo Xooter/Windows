@@ -9,7 +9,7 @@ export async function checkWeatherBasedRules() {
 
   const weather = {
     temperature: 25,
-    rain: true,
+    rain: false,
   }; //await getWeatherConditions();
 
   lastWeather = weather;
@@ -17,7 +17,7 @@ export async function checkWeatherBasedRules() {
   for (const rule of rules) {
     if (!rule.active) continue;
 
-    let conditionMet = checkConditionRule(rule);
+    const conditionMet = checkConditionRule(rule);
 
     if (conditionMet) {
       console.log(`Rule ${rule.id} applies`);
@@ -25,18 +25,16 @@ export async function checkWeatherBasedRules() {
       if (db.data.curtain !== rule.curtain) {
         //// TODO:
         //sendCommand("curtain", rule.curtain);
-        db.data.curtain = rule.curtain;
       }
 
       if (db.data.blind !== rule.blind) {
         //// TODO:
         //sendCommand("blind", rule.blind);
-        db.data.blind = rule.blind;
       }
+
+      return;
     }
   }
-
-  await db.write();
 }
 
 export function checkConditionRule(rule) {

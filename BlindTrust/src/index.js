@@ -8,6 +8,8 @@ import cron from "node-cron";
 import { checkTimeBasedAlarms } from "./alarmScheduler.js";
 import { checkWeatherBasedRules } from "./ruleScheduler.js";
 
+import { setCurtain } from "./controllers/hardwareController.js";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -27,6 +29,7 @@ app.use((err, _req, res) => {
 
 initDB().then(() => {
   app.listen(PORT, () => {
+    setCurtain(1);
     console.log(`Server running... http://localhost:${PORT}`);
   });
 });

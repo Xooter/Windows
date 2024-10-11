@@ -1,20 +1,22 @@
 {
   "curtain": 1,
-  "blind": 0.5,
+  "blind": 0.25,
   "alarms": [
     {
       "id": 2,
       "curtain": 0.5,
       "blind": 0.25,
-      "active": true,
-      "time": 1728583114000,
+      "active": false,
+      "time": 1728667750000,
       "days": [
         1,
         2,
         3,
-        4
+        4,
+        5
       ],
-      "one_time": true
+      "one_time": true,
+      "lastExecuted": "14:29"
     },
     {
       "curtain": 1,
