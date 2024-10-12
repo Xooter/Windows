@@ -9,7 +9,10 @@ export async function checkWeatherBasedRules() {
   await db.read();
   const { rules } = db.data;
 
-  lastWeather = await getWeatherConditions();
+  const weather = await getWeatherConditions().catch((err) => {
+    console.error("Error getting weather data", err);
+  });
+  lastWeather = weather.data;
 
   for (const rule of rules) {
     if (!rule.active) continue;
