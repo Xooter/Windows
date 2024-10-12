@@ -1,6 +1,6 @@
 import { db } from "./database.js";
 import { checkConditionRule } from "./ruleScheduler.js";
-import { setCurtain } from "./controllers/hardwareController.js";
+import { setBlind, setCurtain } from "./controllers/hardwareController.js";
 
 export async function checkTimeBasedAlarms() {
   await db.read();
@@ -33,7 +33,7 @@ export async function checkTimeBasedAlarms() {
       }
 
       if (db.data.blind !== alarm.blind) {
-        //sendCommand("blind", alarm.blind);
+        setBlind(alarm.blind);
       }
 
       console.log(`Alarm ${alarm.id} applies`);

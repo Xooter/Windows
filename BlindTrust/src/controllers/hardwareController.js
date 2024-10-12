@@ -24,6 +24,8 @@ const percentageToTime = {
   0: 0.0, // 0% open
 };
 
+const BLIND_MAX_STEPS = 10000; // blind 100% closed
+
 const connectionDelayMs = 100;
 
 function calculateTimeForPercentage(percentage) {
@@ -48,21 +50,25 @@ export async function setCurtain(value, callback = () => {}) {
   if (steps === 0) return;
 
   const movementTime = getCurtainMovementTime(curtain, value);
-  console.log(`Moving curtain ${steps} steps in ${movementTime} seconds`);
+  console.log(`Moving curtain ${steps * 100}% in ${movementTime} seconds`);
 
-  if (steps > 0) {
-    await openCurtain(movementTime);
-  } else {
-    await closeCurtain(movementTime);
+  try {
+    if (steps > 0) {
+      await openCurtain(movementTime);
+    } else {
+      await closeCurtain(movementTime);
+    }
+
+    setTimeout(
+      () => stopCurtain(callback),
+      movementTime * 1000 + connectionDelayMs,
+    );
+
+    db.data.curtain = value;
+    await db.write();
+  } catch (error) {
+    console.error("Failed to move blind:", error);
   }
-
-  setTimeout(
-    () => stopCurtain(callback),
-    movementTime * 1000 + connectionDelayMs,
-  );
-
-  db.data.curtain = value;
-  await db.write();
 }
 
 async function openCurtain(value) {
@@ -83,10 +89,37 @@ async function stopCurtain(callback = () => {}) {
   return axios.get(`${API_URL}/stop-all`).then(callback);
 }
 
-export async function setBlind(value) {
+export async function setBlind(value, callback = () => {}) {
   await db.read();
   const { blind } = db.data;
 
-  db.data.blind = value;
-  await db.write();
+  const steps = getBlindMovementSteps(blind, value);
+
+  if (steps === 0) return;
+
+  console.log(`Moving blind ${steps} steps`);
+
+  try {
+    await axios.post(`${API_URL}/cortina`, { steps: steps }).then(() => {
+      db.data.blind = value;
+      callback();
+    });
+    await db.write();
+  } catch (error) {
+    console.error("Failed to move blind:", error);
+  }
+}
+
+function getBlindMovementSteps(currentPercentage, targetPercentage) {
+  const currentSteps = calculateStepsForPercentage(currentPercentage);
+  const targetSteps = calculateStepsForPercentage(targetPercentage);
+  return targetSteps - currentSteps;
+}
+
+function calculateStepsForPercentage(percentage) {
+  if (percentage > 1 || percentage < 0) {
+    throw new Error("The percentage must be between 0 and 1");
+  }
+
+  return Math.round(percentage * BLIND_MAX_STEPS);
 }

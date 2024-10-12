@@ -24,8 +24,7 @@ export async function checkWeatherBasedRules() {
       }
 
       if (db.data.blind !== rule.blind) {
-        //// TODO:
-        //sendCommand("blind", rule.blind);
+        setBlind(alarm.blind);
       }
 
       return;

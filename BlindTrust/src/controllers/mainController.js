@@ -1,5 +1,5 @@
 import { db } from "../database.js";
-import { setCurtain } from "./hardwareController.js";
+import { setBlind, setCurtain } from "./hardwareController.js";
 
 export async function getInfo(_req, res) {
   await db.read();
@@ -12,4 +12,6 @@ export async function sendInfo(req, res) {
   setCurtain(info.curtain, () => {
     res.send(info);
   });
+
+  setBlind(info.blind);
 }
