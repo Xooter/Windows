@@ -5,7 +5,6 @@ import { Vibration, View } from "react-native";
 import { TitleSlider } from "@/components/TitleSlider";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_BACK } from "@env";
 
 export default function Index() {
   type CurrentValues = {
@@ -24,7 +23,7 @@ export default function Index() {
 
   useEffect(() => {
     const getInfo = async () => {
-      await axios.get(`${BASE_BACK}/`).then((response) => {
+      await axios.get(`${process.env.BASE_BACK}/`).then((response) => {
         setCurrentValues(response.data);
         console.log(response.data);
       });
@@ -40,7 +39,7 @@ export default function Index() {
     };
     setSending(true);
     axios
-      .post(`${BASE_BACK}`, dataValues)
+      .post(`${process.env.BASE_BACK}`, dataValues)
       .then((response) => {
         Vibration.vibrate([100, 1, 100, 1]);
         console.log(response.data);

@@ -1,7 +1,6 @@
 import { Styles } from "@/utils/Styles";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { WEATHER_COORDS_LAT, WEATHER_COORDS_LON, WEATHER_API } from "@env";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { weatherConditions } from "@/utils/WeatherConditions";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -16,7 +15,7 @@ export const WeatherNow = () => {
     const getCurrentWeather = async () => {
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?${WEATHER_COORDS_LAT}&${WEATHER_COORDS_LON}&units=metric&appid=${WEATHER_API}`,
+          `https://api.openweathermap.org/data/2.5/weather?${process.env.WEATHER_COORDS_LAT}&${process.env.WEATHER_COORDS_LON}&units=metric&appid=${process.env.WEATHER_API}`,
         )
         .then((response) => {
           setWeather(response.data);

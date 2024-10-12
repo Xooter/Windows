@@ -9,7 +9,6 @@ import {
   Vibration,
   View,
 } from "react-native";
-import { BASE_BACK } from "@env";
 import { Alarm } from "@/models/Alarm";
 import { Styles } from "@/utils/Styles";
 import { AddAlarm } from "@/components/AddAlarm";
@@ -25,7 +24,7 @@ export default function Alarms() {
     const getAllAlarms = async () => {
       setLoading(true);
       await axios
-        .get(`${BASE_BACK}/alarms`)
+        .get(`${process.env.BASE_BACK}/alarms`)
         .then((response) => {
           setAlarms(response.data);
         })
@@ -36,7 +35,7 @@ export default function Alarms() {
   }, []);
 
   const activeAlarm = async (id: number) => {
-    await axios.get(`${BASE_BACK}/alarms/active/${id}`);
+    await axios.get(`${process.env.BASE_BACK}/alarms/active/${id}`);
   };
 
   const formatTime = (timeString: number): string => {
@@ -56,7 +55,7 @@ export default function Alarms() {
     if (deletedAlarm === -1) return;
 
     await axios
-      .delete(`${BASE_BACK}/alarms/${deletedAlarm}`)
+      .delete(`${process.env.BASE_BACK}/alarms/${deletedAlarm}`)
       .then((response) => {
         setDeletedAlarm(-1);
         setAlarms((prev) => prev.filter((alarm) => alarm.id !== response.data));

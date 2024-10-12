@@ -3,7 +3,6 @@ import { ConditionContainer } from "@/components/ConditionContainer";
 import { TitleAdd } from "@/components/TitleAdd";
 import { RulesTitleCard } from "@/components/UI/RulesTitleCard";
 import { Rule } from "@/models/Rule";
-import { BASE_BACK } from "@env";
 import axios from "axios";
 import { memo, useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Vibration, View } from "react-native";
@@ -19,7 +18,7 @@ export default function Rules() {
     const getAllRules = async () => {
       setLoading(true);
       await axios
-        .get(`${BASE_BACK}/rules`)
+        .get(`${process.env.BASE_BACK}/rules`)
         .then((response) => {
           setRules(response.data);
         })
@@ -34,7 +33,7 @@ export default function Rules() {
   };
 
   const activeRule = async (id: number) => {
-    await axios.get(`${BASE_BACK}/rules/active/${id}`);
+    await axios.get(`${process.env.BASE_BACK}/rules/active/${id}`);
   };
 
   const selectRule = (id: number) => {
@@ -53,10 +52,12 @@ export default function Rules() {
   const deleteRule = async () => {
     if (deletedRule === -1) return;
 
-    await axios.delete(`${BASE_BACK}/rules/${deletedRule}`).then((response) => {
-      setDeletedRule(-1);
-      setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));
-    });
+    await axios
+      .delete(`${process.env.BASE_BACK}/rules/${deletedRule}`)
+      .then((response) => {
+        setDeletedRule(-1);
+        setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));
+      });
   };
 
   return (

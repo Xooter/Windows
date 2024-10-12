@@ -4,7 +4,6 @@ import { AddModal } from "./AddModal";
 import { TitleSlider } from "./TitleSlider";
 import CustomSlider from "./UI/Slider";
 import axios from "axios";
-import { BASE_BACK } from "@env";
 import { Rule, RuleComparator, RuleCreateDTO, RuleType } from "@/models/Rule";
 import RulePickerModal from "./UI/RulePickerModal";
 import { RulesTitleCard } from "./UI/RulesTitleCard";
@@ -52,7 +51,7 @@ export const AddRule = ({
 
   const onNew = () => {
     axios
-      .post(`${BASE_BACK}/rules`, rule)
+      .post(`${process.env.BASE_BACK}/rules`, rule)
       .then((response) => {
         setIsAddVisible(false);
         onNewRule(response.data);
