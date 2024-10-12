@@ -21,16 +21,26 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.tetranovalgina.Windows",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/icon.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6f9765f2-d904-41cb-87c9-fd1a845df950"
+      }
     }
   }
 }

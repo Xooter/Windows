@@ -1,6 +1,7 @@
 import { db } from "./database.js";
 import { RULE_TYPES, COMPARATORS } from "./utils.js";
 import { setCurtain } from "./controllers/hardwareController.js";
+import { getWeatherConditions } from "./controllers/weatherController.js";
 
 let lastWeather;
 
@@ -8,12 +9,7 @@ export async function checkWeatherBasedRules() {
   await db.read();
   const { rules } = db.data;
 
-  const weather = {
-    temperature: 25,
-    rain: false,
-  }; //await getWeatherConditions();
-
-  lastWeather = weather;
+  lastWeather = await getWeatherConditions();
 
   for (const rule of rules) {
     if (!rule.active) continue;
@@ -45,10 +41,10 @@ export function checkConditionRule(rule) {
 
   switch (rule.type) {
     case RULE_TYPES.WIND:
-      return lastWeather.windSpeed > rule.value;
+      return lastWeather.wind.speed > rule.value;
     case RULE_TYPES.TEMPERATURE:
       return evaluateCondition(
-        lastWeather.temperature,
+        lastWeather.main.temp,
         rule.comparator,
         rule.value,
       );
