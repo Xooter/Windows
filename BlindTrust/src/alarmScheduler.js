@@ -37,7 +37,6 @@ export async function checkTimeBasedAlarms() {
       }
 
       console.log(`Alarm ${alarm.id} applies`);
-      alarm.lastExecuted = formattedTime;
 
       if (alarm.one_time) {
         alarm.active = false;

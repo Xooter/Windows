@@ -22,7 +22,7 @@ app.use("/", mainRoutes);
 
 app.use((err, _req, res) => {
   console.error(err.stack);
-  res.status(500);
+  // res.status(500);
 });
 
 initDB().then(() => {
