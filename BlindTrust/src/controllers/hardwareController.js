@@ -79,7 +79,7 @@ async function openCurtain(value) {
 }
 
 async function closeCurtain(value) {
-  return axios.get(`${API_URL}/open`).then(async () => {
+  return axios.get(`${API_URL}/close`).then(async () => {
     db.data.curtain = value;
     await db.write();
   });
