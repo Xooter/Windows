@@ -14,7 +14,7 @@ import axios from "axios";
 // 25%      07.85s
 // 0%       00.00s
 //
-const API_URL = "http://192.168.1.123";
+const API_URL = "http://192.168.3.123";
 
 const percentageToTime = {
   1: 24.5, // 100% closed
