@@ -23,10 +23,12 @@ export default function Index() {
 
   useEffect(() => {
     const getInfo = async () => {
-      await axios.get(`${process.env.BASE_BACK}/`).then((response) => {
-        setCurrentValues(response.data);
-        console.log(response.data);
-      });
+      await axios
+        .get(`${process.env.EXPO_PUBLIC_BASE_BACK}/`)
+        .then((response) => {
+          setCurrentValues(response.data);
+          console.log(response.data);
+        });
     };
 
     getInfo();
@@ -39,7 +41,7 @@ export default function Index() {
     };
     setSending(true);
     axios
-      .post(`${process.env.BASE_BACK}`, dataValues)
+      .post(`${process.env.EXPO_PUBLIC_BASE_BACK}`, dataValues)
       .then((response) => {
         Vibration.vibrate([100, 1, 100, 1]);
         console.log(response.data);

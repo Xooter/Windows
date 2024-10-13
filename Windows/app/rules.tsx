@@ -18,7 +18,7 @@ export default function Rules() {
     const getAllRules = async () => {
       setLoading(true);
       await axios
-        .get(`${process.env.BASE_BACK}/rules`)
+        .get(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules`)
         .then((response) => {
           setRules(response.data);
         })
@@ -33,7 +33,7 @@ export default function Rules() {
   };
 
   const activeRule = async (id: number) => {
-    await axios.get(`${process.env.BASE_BACK}/rules/active/${id}`);
+    await axios.get(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules/active/${id}`);
   };
 
   const selectRule = (id: number) => {
@@ -53,7 +53,7 @@ export default function Rules() {
     if (deletedRule === -1) return;
 
     await axios
-      .delete(`${process.env.BASE_BACK}/rules/${deletedRule}`)
+      .delete(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules/${deletedRule}`)
       .then((response) => {
         setDeletedRule(-1);
         setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));

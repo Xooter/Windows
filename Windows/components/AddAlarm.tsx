@@ -67,7 +67,7 @@ export const AddAlarm = ({
     };
 
     axios
-      .post(`${process.env.BASE_BACK}/alarms`, newAlarm)
+      .post(`${process.env.EXPO_PUBLIC_BASE_BACK}/alarms`, newAlarm)
       .then((response) => {
         setIsAddVisible(false);
         onNewAlarm(response.data);

@@ -24,7 +24,7 @@ export default function Alarms() {
     const getAllAlarms = async () => {
       setLoading(true);
       await axios
-        .get(`${process.env.BASE_BACK}/alarms`)
+        .get(`${process.env.EXPO_PUBLIC_BASE_BACK}/alarms`)
         .then((response) => {
           setAlarms(response.data);
         })
@@ -35,7 +35,7 @@ export default function Alarms() {
   }, []);
 
   const activeAlarm = async (id: number) => {
-    await axios.get(`${process.env.BASE_BACK}/alarms/active/${id}`);
+    await axios.get(`${process.env.EXPO_PUBLIC_BASE_BACK}/alarms/active/${id}`);
   };
 
   const formatTime = (timeString: number): string => {
@@ -55,7 +55,7 @@ export default function Alarms() {
     if (deletedAlarm === -1) return;
 
     await axios
-      .delete(`${process.env.BASE_BACK}/alarms/${deletedAlarm}`)
+      .delete(`${process.env.EXPO_PUBLIC_BASE_BACK}/alarms/${deletedAlarm}`)
       .then((response) => {
         setDeletedAlarm(-1);
         setAlarms((prev) => prev.filter((alarm) => alarm.id !== response.data));

@@ -15,7 +15,7 @@ export const WeatherNow = () => {
     const getCurrentWeather = async () => {
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?${process.env.WEATHER_COORDS_LAT}&${process.env.WEATHER_COORDS_LON}&units=metric&appid=${process.env.WEATHER_API}`,
+          `https://api.openweathermap.org/data/2.5/weather?${process.env.EXPO_PUBLIC_WEATHER_COORDS_LAT}&${process.env.EXPO_PUBLIC_WEATHER_COORDS_LON}&units=metric&appid=${process.env.EXPO_PUBLIC_WEATHER_API}`,
         )
         .then((response) => {
           setWeather(response.data);
