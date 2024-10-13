@@ -5,8 +5,6 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
     "dev": "nodemon src/index.js --ignore db.json"
   },
   "keywords": [],
