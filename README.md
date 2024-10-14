@@ -85,5 +85,5 @@ This project is licensed under a copyleft license. Please refer to the [LICENSE.
 </p>
 
 <p align="center">
-  <iframe width="560" height="315" src="./Images/Vid.mp4" frameborder="0" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="./Images/Vid.mp4" frameborder="0" allowfullscreen/>
 </p>
