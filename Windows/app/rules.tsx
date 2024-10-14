@@ -18,7 +18,9 @@ export default function Rules() {
     const getAllRules = async () => {
       setLoading(true);
       await axios
-        .get(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules`)
+        .get(
+          `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/rules`,
+        )
         .then((response) => {
           setRules(response.data);
         })
@@ -33,7 +35,9 @@ export default function Rules() {
   };
 
   const activeRule = async (id: number) => {
-    await axios.get(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules/active/${id}`);
+    await axios.get(
+      `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/rules/active/${id}`,
+    );
   };
 
   const selectRule = (id: number) => {
@@ -53,7 +57,9 @@ export default function Rules() {
     if (deletedRule === -1) return;
 
     await axios
-      .delete(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules/${deletedRule}`)
+      .delete(
+        `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/rules/${deletedRule}`,
+      )
       .then((response) => {
         setDeletedRule(-1);
         setRules((prev) => prev.filter((alarm) => alarm.id !== response.data));

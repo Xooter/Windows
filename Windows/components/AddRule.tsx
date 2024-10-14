@@ -51,7 +51,10 @@ export const AddRule = ({
 
   const onNew = () => {
     axios
-      .post(`${process.env.EXPO_PUBLIC_BASE_BACK}/rules`, rule)
+      .post(
+        `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/rules`,
+        rule,
+      )
       .then((response) => {
         setIsAddVisible(false);
         onNewRule(response.data);

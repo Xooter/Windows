@@ -24,7 +24,7 @@ export default function Index() {
   useEffect(() => {
     const getInfo = async () => {
       await axios
-        .get(`${process.env.EXPO_PUBLIC_BASE_BACK}/`)
+        .get(`http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002`)
         .then((response) => {
           setCurrentValues(response.data);
           console.log(response.data);
@@ -41,7 +41,10 @@ export default function Index() {
     };
     setSending(true);
     axios
-      .post(`${process.env.EXPO_PUBLIC_BASE_BACK}`, dataValues)
+      .post(
+        `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002`,
+        dataValues,
+      )
       .then((response) => {
         Vibration.vibrate([100, 1, 100, 1]);
         console.log(response.data);

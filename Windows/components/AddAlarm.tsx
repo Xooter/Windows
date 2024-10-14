@@ -67,7 +67,10 @@ export const AddAlarm = ({
     };
 
     axios
-      .post(`${process.env.EXPO_PUBLIC_BASE_BACK}/alarms`, newAlarm)
+      .post(
+        `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/alarms`,
+        newAlarm,
+      )
       .then((response) => {
         setIsAddVisible(false);
         onNewAlarm(response.data);
