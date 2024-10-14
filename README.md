@@ -4,8 +4,7 @@
   <img src="./Windows/assets/images/icon.png" alt="Project Icon" width="100" />
 </p>
 
-> [!NOTE]  
-> Welcome to the Windows Project, a smart blinds and curtains automation system. This project is divided into three main components:
+Welcome to the Windows Project, a smart blinds and curtains automation system. This project is divided into three main components:
 
 1. **Windows** - The frontend, built with React Native Expo.
 2. **BlindTrust** - The backend, created using Express and LowDB.
@@ -19,6 +18,7 @@
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
+- [Images](#images)
 
 ## Overview
 
@@ -38,6 +38,8 @@ The following features are planned for future releases:
 
 - [ ] **Time-based Control**: Implement automation based on sunrise and sunset times.
 - [ ] **Notifications**: Enable users to receive notifications about the automation status.
+- [ ] **Blind Integration**: Add support for controlling blinds in addition to curtains.
+- [ ] **Multi-Curtain Support**: Allow users to control multiple curtains in different rooms.
 
 ## Project Structure
 
@@ -66,3 +68,11 @@ Contributions to the project are welcome! Whether you want to report bugs, sugge
 ## License
 
 This project is licensed under a copyleft license. Please refer to the [LICENSE.md](/LICENSE.md) file for more details.
+
+## Images
+
+<p align="center">
+  <img src="./Images/AlarmScreen.jpg" alt="Alarms" width="200"/>
+  <img src="./Images/MainScreen.jpg" alt="Main" width="200"/>
+  <img src="./Images/RulesScreen.jpg" alt="Rules" width="200"/>
+</p>
