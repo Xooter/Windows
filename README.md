@@ -73,6 +73,17 @@ This project is licensed under a copyleft license. Please refer to the [LICENSE.
 
 <p align="center">
   <img src="./Images/AlarmScreen.jpg" alt="Alarms" width="200"/>
+  <img src="./Images/NewAlarm.jpg" alt="NewRules" width="200"/>
   <img src="./Images/MainScreen.jpg" alt="Main" width="200"/>
   <img src="./Images/RulesScreen.jpg" alt="Rules" width="200"/>
+</p>
+
+<p align="center">
+  <img src="./Images/Hardware.jpg" alt="hardware" width="200"/>
+  <img src="./Images/HardwareConection.jpg" alt="conection" width="200"/>
+  <img src="./Images/HardwareWires.jpg" alt="wires" width="200"/>
+</p>
+
+<p align="center">
+  <iframe width="560" height="315" src="./Images/Vid.mp4" frameborder="0" allowfullscreen></iframe>
 </p>
