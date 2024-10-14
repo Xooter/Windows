@@ -4,6 +4,7 @@ import "dotenv/config";
 import alarmsRoutes from "./routes/alarmsRoutes.js";
 import rulesRoutes from "./routes/rulesRoutes.js";
 import mainRoutes from "./routes/mainRoutes.js";
+import cors from "cors";
 
 import cron from "node-cron";
 import { checkTimeBasedAlarms } from "./alarmScheduler.js";
