@@ -84,6 +84,4 @@ This project is licensed under a copyleft license. Please refer to the [LICENSE.
   <img src="./Images/HardwareWires.jpg" alt="wires" width="200"/>
 </p>
 
-<p align="center">
-  <video width="560" height="315" src="./Images/Vid.mp4"/>
-</p>
+![Output sample](./Images/Vid.gif)
