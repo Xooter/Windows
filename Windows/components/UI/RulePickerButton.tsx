@@ -19,7 +19,7 @@ export const RulePickerButton = ({
   const buttonScale = useRef(new Animated.Value(1)).current;
 
   function changeType(): void {
-    const newType = (type + 1) % 3;
+    const newType = (type + 1) % 4;
     setType(newType);
     Vibration.vibrate(20);
 

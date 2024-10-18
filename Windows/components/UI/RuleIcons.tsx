@@ -1,6 +1,10 @@
 import { RuleType } from "@/models/Rule";
 import { typeColor } from "@/utils/RuleColors";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import React from "react";
 
 export const RuleIcons = ({ type }: { type: RuleType }) => {
@@ -18,7 +22,17 @@ export const RuleIcons = ({ type }: { type: RuleType }) => {
         );
       case RuleType.RAIN:
         return <Ionicons name="rainy" size={40} color={typeColor(type)} />;
+      case RuleType.SUN_POSITION:
+        return (
+          <MaterialCommunityIcons
+            name="weather-sunset"
+            size={40}
+            color={typeColor(type)}
+          />
+        );
+      default:
+        return <AntDesign name="unknowfile1" size={40} color="#222" />;
     }
   };
-  return <>{typeIcon()}</>;
+  return typeIcon();
 };

@@ -4,6 +4,7 @@ export enum RuleType {
   WIND,
   RAIN,
   TEMPERATURE,
+  SUN_POSITION,
 }
 
 export enum RuleComparator {

@@ -8,5 +8,9 @@ export const typeColor = (type: RuleType) => {
       return "#7881ff";
     case RuleType.RAIN:
       return "#87A2FF";
+    case RuleType.SUN_POSITION:
+      return "#f79633";
+    default:
+      return "#87A2FF";
   }
 };

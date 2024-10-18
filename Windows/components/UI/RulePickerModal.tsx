@@ -11,6 +11,7 @@ import { HorizontalScrollPicker } from "./HorizontalScrollPicker";
 import { RulePickerButton } from "./RulePickerButton";
 import { RuleComparator, RuleCreateDTO, RuleType } from "@/models/Rule";
 import { RuleComparationPicker } from "./RuleComparationPicker";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 const RulePickerModal = ({
   visible,
@@ -46,12 +47,20 @@ const RulePickerModal = ({
               backgroundColor: "#fff",
             },
           ]}
-          className="w-[80%] rounded-xl flex-col items-center px-5 pb-8 pt-2 gap-y-2"
+          className="w-[80%] rounded-xl flex-col items-center px-5 pb-8 pt-2"
         >
-          <View className="flex-row gap-x-2 justify-around w-full mb-2">
+          <View className="flex-row gap-x-2 justify-around w-full mb-2 mt-2">
             <RulePickerButton type={type} setType={setType} />
-            {type === RuleType.TEMPERATURE && (
+            {(type === RuleType.TEMPERATURE ||
+              type === RuleType.SUN_POSITION) && (
               <RuleComparationPicker
+                icon={
+                  type === RuleType.TEMPERATURE ? (
+                    <FontAwesome5 name="less-than" size={40} color="#7881ff" />
+                  ) : (
+                    <FontAwesome name="arrow-up" size={40} color="#7881ff" />
+                  )
+                }
                 type={comparator}
                 setType={setComparator}
               />
@@ -72,6 +81,18 @@ const RulePickerModal = ({
                 ? "°C"
                 : ""}
           </Text>
+          {type === RuleType.SUN_POSITION && (
+            <Text
+              style={{
+                ...Styles.title,
+                fontSize: 45,
+                color: "#7881ff",
+              }}
+              className="capitalize"
+            >
+              {comparator === 0 ? "Sunrise" : "Sunset"}
+            </Text>
+          )}
           <TouchableOpacity
             onPress={onSelect}
             activeOpacity={0.95}

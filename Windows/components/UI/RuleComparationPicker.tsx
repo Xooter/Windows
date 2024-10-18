@@ -6,21 +6,21 @@ import {
   Easing,
   Vibration,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 export const RuleComparationPicker = ({
   type,
   setType,
+  icon,
 }: {
   type: RuleComparator;
   setType: (type: RuleComparator) => void;
+  icon: React.ReactNode;
 }) => {
   const buttonScale = useRef(new Animated.Value(1)).current;
-  const iconRotation = useRef(new Animated.Value(1)).current;
+  const iconRotation = useRef(new Animated.Value(type)).current;
 
   function changeType(): void {
     const newType = (type + 1) % 2;
-    console.log("changeType", newType);
     setType(newType);
     Vibration.vibrate(20);
 
@@ -40,7 +40,7 @@ export const RuleComparationPicker = ({
     ]).start();
 
     Animated.timing(iconRotation, {
-      toValue: newType === RuleComparator.GREATER ? 1 : 0,
+      toValue: newType,
       duration: 800,
       useNativeDriver: true,
       easing: Easing.elastic(3),
@@ -62,7 +62,7 @@ export const RuleComparationPicker = ({
         }}
         className="aspect-square flex items-center justify-center rounded-full"
       >
-        <FontAwesome5 name="less-than" size={40} color="#7881ff" />
+        {icon}
       </Animated.View>
     </TouchableWithoutFeedback>
   );
