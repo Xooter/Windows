@@ -4,6 +4,7 @@ export const RULE_TYPES = {
   WIND: 1,
   TEMPERATURE: 2,
   RAIN: 3,
+  SUN_POSITION: 4,
 };
 
 export const COMPARATORS = {
@@ -17,4 +18,8 @@ export function getMaxId(type) {
 
 export function getItemById(type, id) {
   return db.data[type].find((a) => a.id == id);
+}
+
+export function convertTime(time) {
+  return `${String(time.getHours()).padStart(2, "0")}:${String(time.getMinutes()).padStart(2, "0")}`;
 }

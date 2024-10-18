@@ -2,6 +2,7 @@ import { db } from "./database.js";
 import { RULE_TYPES, COMPARATORS } from "./utils.js";
 import { setCurtain } from "./controllers/hardwareController.js";
 import { getWeatherConditions } from "./controllers/weatherController.js";
+import { convertTime } from "./utils.js";
 
 let lastWeather;
 
@@ -52,10 +53,29 @@ export function checkConditionRule(rule) {
       );
     case RULE_TYPES.RAIN:
       return lastWeather.rain;
+    case RULE_TYPES.SUN_POSITION:
+      return evaluateSunPosition(lastWeather.sys, rule.comparator);
     default:
       console.warn(`Rule type unknow: ${rule.type}`);
       return false;
   }
+}
+
+function evaluateSunPosition(data, comparator) {
+  // data: {
+  //      "sunrise": 1726636384,
+  //      "sunset": 1726680975
+  //   }
+
+  const currentTime = new Date();
+  const formattedTime = convertTime(currentTime);
+
+  const ruleTime = new Date(
+    comparator === COMPARATORS.LESS_THAN ? data.sunrise : data.sunset,
+  );
+  const ruleTimeFormatted = convertTime(ruleTime);
+
+  return ruleTimeFormatted === formattedTime;
 }
 
 function evaluateCondition(actual, comparator, target) {

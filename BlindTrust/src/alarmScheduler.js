@@ -1,6 +1,7 @@
 import { db } from "./database.js";
 import { checkConditionRule } from "./ruleScheduler.js";
 import { setBlind, setCurtain } from "./controllers/hardwareController.js";
+import { convertTime } from "./utils.js";
 
 export async function checkTimeBasedAlarms() {
   await db.read();
@@ -23,9 +24,6 @@ export async function checkTimeBasedAlarms() {
 
     const alarmDate = new Date(alarm.time);
     const alarmTimeFormatted = convertTime(alarmDate);
-    console.log(
-      `Comparing ${alarmTimeFormatted} - ${formattedTime} // ${currentDay}`,
-    );
 
     if (alarmTimeFormatted === formattedTime) {
       if (db.data.curtain !== alarm.curtain) {
@@ -47,8 +45,4 @@ export async function checkTimeBasedAlarms() {
     }
   }
   await db.write();
-}
-
-function convertTime(time) {
-  return `${String(time.getHours()).padStart(2, "0")}:${String(time.getMinutes()).padStart(2, "0")}`;
 }
