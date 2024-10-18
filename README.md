@@ -36,7 +36,7 @@ The Windows Project automates the opening and closing of blinds and curtains bas
 
 The following features are planned for future releases:
 
-- [ ] **Time-based Control**: Implement automation based on sunrise and sunset times.
+- [x] **Time-based Control**: Implement automation based on sunrise and sunset times.
 - [ ] **Notifications**: Enable users to receive notifications about the automation status.
 - [ ] **Blind Integration**: Add support for controlling blinds in addition to curtains.
 - [ ] **Multi-Curtain Support**: Allow users to control multiple curtains in different rooms.
