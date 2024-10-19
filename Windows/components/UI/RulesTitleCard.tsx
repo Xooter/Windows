@@ -18,24 +18,18 @@ export const RulesTitleCard = ({
 }) => {
   const iconColor = !isSelected ? "#7881ff" : "#EB3678";
 
+  const blackWhiteColor =
+    isSelected === null ? "#fff" : isSelected === false ? "#222" : "#EB3678";
+
   const SunPositionSubText = () => {
     return (
       <View className="flex-row items-center ml-4">
-        <FontAwesome5
-          name="clock"
-          size={20}
-          color={!isSelected ? "#222" : "#EB3678"}
-        />
+        <FontAwesome5 name="clock" size={20} color={blackWhiteColor} />
         <Text
           style={{
             ...Styles.subtitle,
             fontSize: 18,
-            color:
-              isSelected === null
-                ? "#fff"
-                : isSelected === false
-                  ? "#222"
-                  : "#EB3678",
+            color: blackWhiteColor,
           }}
           className="capitalize ml-2"
         >
