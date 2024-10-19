@@ -1,10 +1,10 @@
 import { db } from "./database.js";
 
 export const RULE_TYPES = {
-  WIND: 1,
-  TEMPERATURE: 2,
-  RAIN: 3,
-  SUN_POSITION: 4,
+  WIND: 0,
+  TEMPERATURE: 1,
+  RAIN: 2,
+  SUN_POSITION: 3,
 };
 
 export const COMPARATORS = {

@@ -54,14 +54,14 @@ export function checkConditionRule(rule) {
     case RULE_TYPES.RAIN:
       return lastWeather.rain;
     case RULE_TYPES.SUN_POSITION:
-      return evaluateSunPosition(lastWeather.sys, rule.comparator);
+      return evaluateSunPosition(lastWeather.sys, rule);
     default:
       console.warn(`Rule type unknow: ${rule.type}`);
       return false;
   }
 }
 
-function evaluateSunPosition(data, comparator) {
+function evaluateSunPosition(data, rule) {
   // data: {
   //      "sunrise": 1726636384,
   //      "sunset": 1726680975
@@ -70,9 +70,9 @@ function evaluateSunPosition(data, comparator) {
   const currentTime = new Date();
   const formattedTime = convertTime(currentTime);
 
-  const ruleTime = new Date(
-    comparator === COMPARATORS.LESS_THAN ? data.sunrise : data.sunset,
-  );
+  const timestamp =
+    rule.comparator === COMPARATORS.LESS_THAN ? data.sunrise : data.sunset;
+  const ruleTime = new Date(timestamp + rule.value * 60000); // added offset in minutes
   const ruleTimeFormatted = convertTime(ruleTime);
 
   return ruleTimeFormatted === formattedTime;
