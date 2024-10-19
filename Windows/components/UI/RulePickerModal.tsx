@@ -1,5 +1,5 @@
 import { Styles } from "@/utils/Styles";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Modal,
@@ -34,6 +34,17 @@ const RulePickerModal = ({
     setValue(value);
   }, []);
 
+  const allowedValuePicker = [
+    RuleType.TEMPERATURE,
+    RuleType.WIND,
+    RuleType.SUN_POSITION,
+  ];
+
+  const allowedComparationButton = [
+    RuleType.TEMPERATURE,
+    RuleType.SUN_POSITION,
+  ];
+
   return (
     <Modal visible={visible} transparent={true} animationType="none">
       <View className="flex-1 items-center justify-center">
@@ -51,8 +62,7 @@ const RulePickerModal = ({
         >
           <View className="flex-row gap-x-2 justify-around w-full mb-2 mt-2">
             <RulePickerButton type={type} setType={setType} />
-            {(type === RuleType.TEMPERATURE ||
-              type === RuleType.SUN_POSITION) && (
+            {allowedComparationButton.includes(type) && (
               <RuleComparationPicker
                 icon={
                   type === RuleType.TEMPERATURE ? (
@@ -66,7 +76,7 @@ const RulePickerModal = ({
               />
             )}
           </View>
-          {(type === RuleType.TEMPERATURE || type === RuleType.WIND) && (
+          {allowedValuePicker.includes(type) && (
             <HorizontalScrollPicker
               limit={60}
               defaultValue={rule.value}
@@ -74,24 +84,26 @@ const RulePickerModal = ({
             />
           )}
 
-          <Text style={{ ...Styles.subtitle, fontSize: 20, color: "#222" }}>
-            {type === RuleType.WIND
-              ? "km/h"
-              : type === RuleType.TEMPERATURE
-                ? "°C"
-                : ""}
-          </Text>
-          {type === RuleType.SUN_POSITION && (
-            <Text
-              style={{
-                ...Styles.title,
-                fontSize: 45,
-                color: "#7881ff",
-              }}
-              className="capitalize"
-            >
-              {comparator === 0 ? "Sunrise" : "Sunset"}
+          {type === RuleType.SUN_POSITION ? (
+            <Text style={{ ...Styles.subtitle, fontSize: 20, color: "#222" }}>
+              On
+              <Text
+                style={{
+                  ...Styles.title,
+                  fontSize: 20,
+                  color: "#7881ff",
+                }}
+              >
+                {comparator === 0 ? " Sunrise" : " Sunset"}
+              </Text>
+              {value != 0 ? " +" + value + " minutes" : ""}
             </Text>
+          ) : (
+            type !== RuleType.RAIN && (
+              <Text style={{ ...Styles.subtitle, fontSize: 20, color: "#222" }}>
+                {type === RuleType.WIND ? "km/h" : "°C"}
+              </Text>
+            )
           )}
           <TouchableOpacity
             onPress={onSelect}

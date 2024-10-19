@@ -104,7 +104,6 @@ export const AddRule = ({
                   active: true,
                   ...rule,
                 }}
-                isSelected={false}
               />
             </View>
           </TouchableOpacity>
