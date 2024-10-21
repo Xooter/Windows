@@ -24,11 +24,11 @@ export async function checkWeatherBasedRules() {
       console.log(`Rule ${rule.id} applies`);
 
       if (db.data.curtain !== rule.curtain) {
-        setCurtain(alarm.curtain);
+        setCurtain(rule.curtain);
       }
 
       if (db.data.blind !== rule.blind) {
-        setBlind(alarm.blind);
+        setBlind(rule.blind);
       }
 
       return;
