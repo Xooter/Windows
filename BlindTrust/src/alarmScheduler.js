@@ -7,8 +7,7 @@ export async function checkTimeBasedAlarms() {
   await db.read();
   const { rules, alarms } = db.data;
 
-  const currentTime = new Date();
-  const formattedTime = convertTime(currentTime);
+  const { formattedTime, currentTime } = getFormattedCurrentTime();
   const currentDay = currentTime.getDay();
 
   for (const rule of rules) {
@@ -45,4 +44,15 @@ export async function checkTimeBasedAlarms() {
     }
   }
   await db.write();
+}
+
+export function getFormattedCurrentTime() {
+  const currentTime = new Date();
+  const localTime = new Date(
+    currentTime.getTime() - currentTime.getTimezoneOffset() * 60000,
+  );
+  return {
+    formattedTime: convertTime(localTime),
+    currentTime: currentTime,
+  };
 }

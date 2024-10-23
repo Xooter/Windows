@@ -3,6 +3,7 @@ import { RULE_TYPES, COMPARATORS } from "./utils.js";
 import { setCurtain } from "./controllers/hardwareController.js";
 import { getWeatherConditions } from "./controllers/weatherController.js";
 import { convertTime } from "./utils.js";
+import { getFormattedCurrentTime } from "./alarmScheduler.js";
 
 let lastWeather;
 
@@ -71,8 +72,7 @@ function evaluateSunPosition(data, timezone, rule) {
   const sunrise = data.sunrise * 1000;
   const sunset = data.sunset + timezone;
 
-  const currentTime = new Date();
-  const formattedTime = convertTime(currentTime);
+  const { formattedTime } = getFormattedCurrentTime();
 
   const timestamp = rule.comparator == COMPARATORS.LESS_THAN ? sunrise : sunset;
 
