@@ -48,11 +48,8 @@ export async function checkTimeBasedAlarms() {
 
 export function getFormattedCurrentTime() {
   const currentTime = new Date();
-  const localTime = new Date(
-    currentTime.getTime() - currentTime.getTimezoneOffset() * 60000,
-  );
   return {
-    formattedTime: convertTime(localTime),
+    formattedTime: convertTime(currentTime),
     currentTime: currentTime,
   };
 }
