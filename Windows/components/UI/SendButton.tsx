@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Animated,
   Easing,
@@ -14,10 +14,12 @@ export const SendButton = ({
   text,
   loading,
   onPress,
+  disabled = false,
 }: {
   text: string;
   loading: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) => {
   const rotationDegree = useRef(new Animated.Value(0)).current;
   const buttonWidth = useRef(new Animated.Value(300)).current;
@@ -57,10 +59,10 @@ export const SendButton = ({
       }).start();
       rotationDegree.setValue(0);
     }
-  }, [loading, rotationDegree, buttonWidth]);
+  }, [loading, rotationDegree, buttonWidth, disabled]);
 
   const Send = () => {
-    if (loading) return;
+    if (loading || disabled) return;
 
     Vibration.vibrate(50);
     onPress();
@@ -70,7 +72,11 @@ export const SendButton = ({
     <TouchableOpacity
       activeOpacity={0.95}
       onPress={Send}
-      style={{ ...Styles.shadow, backgroundColor: "#222" }}
+      style={{
+        ...Styles.shadow,
+        backgroundColor: "#222",
+        opacity: disabled ? 0.8 : 1,
+      }}
       className="p-5 rounded-xl mx-3 flex-row justify-center space-x-2 items-center mt-auto mb-24 h-20"
     >
       <Animated.View

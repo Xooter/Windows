@@ -15,6 +15,7 @@ export default function Index() {
   const [blindValue, setBlindValue] = useState<number>(0);
   const [curtainValue, setCurtainValue] = useState<number>(0);
   const [sending, setSending] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [currentValues, setCurrentValues] = useState<CurrentValues>({
     curtain: 0,
@@ -28,6 +29,7 @@ export default function Index() {
         .then((response) => {
           setCurrentValues(response.data);
           console.log(response.data);
+          setLoading(false);
         });
     };
 
@@ -80,7 +82,12 @@ export default function Index() {
         }}
         steps={5}
       />
-      <SendButton text="Send" loading={sending} onPress={sendValues} />
+      <SendButton
+        text="Send"
+        loading={sending}
+        onPress={sendValues}
+        disabled={loading}
+      />
     </View>
   );
 }
