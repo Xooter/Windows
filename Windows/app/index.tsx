@@ -5,6 +5,7 @@ import { Vibration, View } from "react-native";
 import { TitleSlider } from "@/components/TitleSlider";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ToastManager, { Toast } from "toastify-react-native";
 
 export default function Index() {
   type CurrentValues = {
@@ -30,6 +31,9 @@ export default function Index() {
           setCurrentValues(response.data);
           console.log(response.data);
           setLoading(false);
+        })
+        .catch(() => {
+          Toast.error("Server is not available");
         });
     };
 
@@ -59,6 +63,7 @@ export default function Index() {
 
   return (
     <View className="flex-col h-full items-center gap-y-5">
+      <ToastManager />
       <WeatherNow />
       <TitleSlider text="Curtain" porcentage={curtainValue} />
       <CustomSlider
