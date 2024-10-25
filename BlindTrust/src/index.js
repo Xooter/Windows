@@ -31,14 +31,12 @@ initDB().then(() => {
 });
 
 cron.schedule("* * * * *", () => {
-  console.log("Checking alamrs...");
   checkTimeBasedAlarms().catch((error) => {
     console.error("Error checkTimeBasedAlarms:", error);
   });
 });
 
 cron.schedule("*/2 * * * *", () => {
-  console.log("Checking rules...");
   checkWeatherBasedRules().catch((error) => {
     console.error("Error checkWeatherBasedRules:", error);
   });
