@@ -23,7 +23,7 @@ export const RulesTitleCard = ({
 
   const SunPositionSubText = () => {
     return (
-      <View className="flex-row items-center ml-4">
+      <View className="flex-row items-center">
         <FontAwesome5 name="clock" size={20} color={blackWhiteColor} />
         <Text
           style={{
@@ -55,14 +55,14 @@ export const RulesTitleCard = ({
         rule.comparator == 0 ? (
           <>
             <Feather name="sunrise" size={50} color={iconColor} />
-            <View className="flex-col items-center">
+            <View className="flex-col ml-4 items-center">
               <Text
                 style={{
                   ...Styles.title,
                   fontSize: 45,
                   color: iconColor,
                 }}
-                className="capitalize ml-4"
+                className="capitalize"
               >
                 Sunrise
               </Text>
@@ -72,14 +72,14 @@ export const RulesTitleCard = ({
         ) : (
           <>
             <Feather name="sunset" size={50} color={iconColor} />
-            <View className="flex-col">
+            <View className="flex-col ml-4 items-center">
               <Text
                 style={{
                   ...Styles.title,
                   fontSize: 45,
                   color: iconColor,
                 }}
-                className="capitalize ml-4"
+                className="capitalize"
               >
                 Sunset
               </Text>
