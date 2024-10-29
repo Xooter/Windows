@@ -3,6 +3,7 @@ import { checkConditionRule } from "./ruleScheduler.js";
 import { setBlind, setCurtain } from "./controllers/hardwareController.js";
 import { convertTime } from "./utils.js";
 import { lastWeather } from "./ruleScheduler.js";
+import { COMPARATORS } from "./utils.js";
 
 export async function checkTimeBasedAlarms() {
   await db.read();
