@@ -2,8 +2,10 @@ import { db } from "./database.js";
 import { RULE_TYPES, COMPARATORS } from "./utils.js";
 import { setCurtain } from "./controllers/hardwareController.js";
 import { getWeatherConditions } from "./controllers/weatherController.js";
+import { getFormattedCurrentTime } from "./alarmScheduler.js";
+import { convertTime } from "./utils.js";
 
-export let lastWeather;
+let lastWeather;
 
 export async function checkWeatherBasedRules() {
   await db.read();
@@ -51,7 +53,7 @@ export function checkConditionRule(rule) {
         rule.value,
       );
     case RULE_TYPES.RAIN:
-      return lastWeather.rain;
+      return lastWeather.rain !== undefined;
     case RULE_TYPES.SUN_POSITION:
       return false; // Implemented in AlarmScheduler
     default:
@@ -69,4 +71,25 @@ function evaluateCondition(actual, comparator, target) {
     default:
       return false;
   }
+}
+
+export function evaluateSunPosition(rule) {
+  // data: {
+  //      "sunrise": 1726636384,
+  //      "sunset": 1726680975
+  //   }
+
+  if (!lastWeather) return false;
+  const data = lastWeather.sys;
+
+  const { formattedTime } = getFormattedCurrentTime();
+
+  var timestamp =
+    (rule.comparator == COMPARATORS.LESS_THAN ? data.sunrise : data.sunset) *
+    1000;
+
+  const ruleTime = new Date(timestamp + rule.value * 60000); // added offset in minutes
+  const ruleTimeFormatted = convertTime(ruleTime);
+
+  return ruleTimeFormatted === formattedTime;
 }

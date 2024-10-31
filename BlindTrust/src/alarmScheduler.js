@@ -1,9 +1,8 @@
 import { db } from "./database.js";
-import { checkConditionRule } from "./ruleScheduler.js";
+import { evaluateSunPosition, checkConditionRule } from "./ruleScheduler.js";
 import { setBlind, setCurtain } from "./controllers/hardwareController.js";
 import { convertTime } from "./utils.js";
-import { lastWeather } from "./ruleScheduler.js";
-import { COMPARATORS } from "./utils.js";
+import { RULE_TYPES } from "./utils.js";
 
 export async function checkTimeBasedAlarms() {
   await db.read();
@@ -15,7 +14,7 @@ export async function checkTimeBasedAlarms() {
   for (const rule of rules) {
     if (!rule.active) continue;
     // Apply rule based on sun position each minute
-    if (lastWeather && evaluateSunPosition(lastWeather.sys, rule)) {
+    if (rule.type == RULE_TYPES.SUN_POSITION && evaluateSunPosition(rule)) {
       sendHardware(db, rule);
       return;
     }
@@ -53,24 +52,6 @@ export function getFormattedCurrentTime() {
     formattedTime: convertTime(currentTime),
     currentTime: currentTime,
   };
-}
-
-function evaluateSunPosition(data, rule) {
-  // data: {
-  //      "sunrise": 1726636384,
-  //      "sunset": 1726680975
-  //   }
-
-  const { formattedTime } = getFormattedCurrentTime();
-
-  const timestamp =
-    (rule.comparator == COMPARATORS.LESS_THAN ? data.sunrise : data.sunset) *
-    1000;
-
-  const ruleTime = new Date(timestamp + rule.value * 60000); // added offset in minutes
-  const ruleTimeFormatted = convertTime(ruleTime);
-
-  return ruleTimeFormatted === formattedTime;
 }
 
 function sendHardware(db, item) {

@@ -1,5 +1,5 @@
 {
-  "curtain": 1,
+  "curtain": 0.5,
   "blind": 0.25,
   "alarms": [
     {
@@ -71,10 +71,19 @@
       "curtain": 0.5,
       "blind": 0.25,
       "active": true,
-      "type": 2,
+      "type": 1,
       "comparator": 1,
       "value": 30,
       "id": 3
+    },
+    {
+      "curtain": 0.5,
+      "blind": 0.25,
+      "active": true,
+      "type": 3,
+      "comparator": 0,
+      "value": 30,
+      "id": 4
     },
     {
       "curtain": 1,
