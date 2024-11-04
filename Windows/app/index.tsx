@@ -26,14 +26,21 @@ export default function Index() {
   useEffect(() => {
     const getInfo = async () => {
       await axios
-        .get(`http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002`)
+        .get(`http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002`, {
+          timeout: 3000,
+        })
         .then((response) => {
           setCurrentValues(response.data);
-          console.log(response.data);
-          setLoading(false);
         })
-        .catch(() => {
-          Toast.error("Server is not available");
+        .catch((error) => {
+          if (error.code === "ECONNABORTED") {
+            console.log("Request timed out");
+          } else {
+            Toast.error("Server is not available");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     };
 
