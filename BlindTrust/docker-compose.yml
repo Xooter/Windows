@@ -5,6 +5,6 @@ services:
     build: .
     container_name: mi-app-node
     ports:
-      - "3000:3000"
+      - "4002:4000"
     env_file:
       - .env
