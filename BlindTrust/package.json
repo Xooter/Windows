@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js --ignore db.json"
+    "dev": "nodemon src/index.js --ignore db.json",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "Joaquin Righetti",
