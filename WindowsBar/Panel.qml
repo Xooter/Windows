@@ -5,6 +5,7 @@ import qs.Commons
 import QtQuick.Controls 2.15
 import qs.Commons
 import qs.Widgets
+import "components"
 
 Item {
     id: root
@@ -29,29 +30,24 @@ Item {
             from: 0
             to: 100
             stepSize: 25
-            value: pluginApi.mainInstance.curtain
+            value: root.pluginApi.mainInstance.curtain
             onValueChanged: pluginApi.mainInstance.curtain = value
         }
 
-        NButton {
-            id: button
-
-            text: sending ? "Enviando..." : "Enviar"
-            enabled: !sending
-
-            implicitWidth: 200
-            implicitHeight: 48
+        SendButton {
+            text: "Enviar"
+            loading: sending
 
             onClicked: {
-                root.sending = true;
+                sending = true;
 
-                pluginApi.mainInstance.post(pluginApi.mainInstance.SERVER_ADDRESS, {
+                pluginApi.mainInstance.post(pluginApi.mainInstance.server_address, {
                     curtain: pluginApi.mainInstance.curtain / 100,
-                    blind: 0 // TODO: completar blind
+                    blind: 0
                 }, function (res) {
-                    root.sending = false;
+                    sending = false;
                 }, function (err, msg) {
-                    root.sending = false;
+                    sending = false;
                 });
             }
         }

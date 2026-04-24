@@ -6,18 +6,16 @@ Item {
     property var pluginApi: null
 
     property real curtain: 0
-		property real blind: 0
+    property real blind: 0
 
-		property readonly SERVER_ADDRESS: "http://192.168.3.211:4002"
+    readonly property string server_address: "http://192.168.3.211:4002"
 
     Component.onCompleted: {
         getStatus();
     }
 
     function getStatus() {
-        get("http://192.168.3.211:4002", function (res) {
-            console.log("GET OK:", res);
-
+        get(root.server_address, function (res) {
             curtain = res.curtain * 100;
             blind = res.blind * 100;
         }, function (err, msg) {
