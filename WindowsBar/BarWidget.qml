@@ -9,10 +9,10 @@ Item {
 
     property var pluginApi: null
     property string widgetId: ""
-		property string section: ""
-		property ShellScreen screen
+    property string section: ""
+    property ShellScreen screen
 
-		readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screen?.name ?? "")
+    readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screen?.name ?? "")
 
     implicitHeight: capsuleHeight
     implicitWidth: content.implicitWidth + Style.marginM * 2
@@ -24,22 +24,6 @@ Item {
         radius: Style.radiusL
         color: Color.mSurfaceVariant
 
-        border.color: root._minStat < 20 ? "#E24B4A" : "transparent"
-        border.width: root._minStat < 20 ? 1 : 0
-
-        SequentialAnimation on border.width {
-            running: root._minStat < 20
-            loops: Animation.Infinite
-            NumberAnimation {
-                to: 2
-                duration: 500
-            }
-            NumberAnimation {
-                to: 0
-                duration: 500
-            }
-        }
-
         RowLayout {
             id: content
             anchors.centerIn: parent
@@ -50,7 +34,6 @@ Item {
                 text: "asdasd"
                 Layout.alignment: Qt.AlignVCenter
             }
-
         }
     }
 
@@ -58,11 +41,10 @@ Item {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: false
-        cursorShape:  Qt.PointingHandCursor
+        cursorShape: Qt.PointingHandCursor
         onClicked: {
             if (pluginApi)
-                pluginApi.openPanel(root.screen, this)
+                pluginApi.openPanel(root.screen, this);
         }
     }
 }
-
