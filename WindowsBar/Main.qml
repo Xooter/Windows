@@ -1,14 +1,67 @@
 import QtQuick
+import QtQuick.Controls
 
 Item {
     id: root
     property var pluginApi: null
 
-    readonly property var cfg: pluginApi?.pluginSettings ?? ({})
+    property real curtain: 0
+    property real blind: 0
 
-    function save() {
-        if (!pluginApi)
-            return;
-        pluginApi.saveSettings();
+    Component.onCompleted: {
+        getStatus();
+    }
+
+    function getStatus() {
+        get("http://192.168.3.211:4002", function (res) {
+            console.log("GET OK:", res);
+
+            curtain = res.curtain * 100;
+            blind = res.blind * 100;
+        }, function (err, msg) {
+            console.log("GET ERROR:", err, msg);
+        });
+    }
+
+    function post(url, data, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    onSuccess(JSON.parse(xhr.responseText));
+                } else {
+                    onError(xhr.status, xhr.responseText);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+
+    function get(url, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    onSuccess(JSON.parse(xhr.responseText));
+                } else {
+                    onError(xhr.status, xhr.responseText);
+                }
+            }
+        };
+
+        xhr.send();
+    }
+
+    Timer {
+        interval: 120000
+        onTriggered: {
+            getStatus();
+        }
     }
 }
