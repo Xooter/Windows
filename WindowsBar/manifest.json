@@ -1,0 +1,21 @@
+{
+  "id": "windows-bar",
+  "name": "Windows Bar",
+  "version": "1.0.0",
+  "minNoctaliaVersion": "4.6.6",
+  "author": "Joaquin Righetti, Lucia Bollati",
+  "license": "MIT",
+  "repository": "https://github.com/noctalia-dev/noctalia-plugins",
+  "description": "A lightweight taskbar Tamagotchi that lives and evolves while you use your computer.",
+  "tags": ["Bar", "Fun", "Gaming"],
+  "entryPoints": {
+    "panel": "Panel.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {}
+  }
+}
