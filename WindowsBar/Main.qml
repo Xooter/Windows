@@ -6,7 +6,9 @@ Item {
     property var pluginApi: null
 
     property real curtain: 0
-    property real blind: 0
+		property real blind: 0
+
+		property readonly SERVER_ADDRESS: "http://192.168.3.211:4002"
 
     Component.onCompleted: {
         getStatus();
