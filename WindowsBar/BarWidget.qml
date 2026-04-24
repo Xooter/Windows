@@ -29,9 +29,15 @@ Item {
             anchors.centerIn: parent
             spacing: Style.marginM
             anchors.verticalCenter: parent.verticalCenter
-
+Image {
+    id: windowIcon
+    source: "assets/window.svg"
+    width: 24
+    height: 24
+    fillMode: Image.PreserveAspectFit
+}
             NText {
-                text: "asdasd"
+                text: Math.round(pluginApi.mainInstance.curtain) + "%"
                 Layout.alignment: Qt.AlignVCenter
             }
         }
