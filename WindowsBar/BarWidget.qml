@@ -17,29 +17,22 @@ Item {
     implicitHeight: capsuleHeight
     implicitWidth: content.implicitWidth + Style.marginM * 2
 
-    Rectangle {
+    RowLayout {
+        id: content
         anchors.centerIn: parent
-        height: capsuleHeight
-        width: root.implicitWidth
-        radius: Style.radiusL
-        color: Color.mSurfaceVariant
+        spacing: Style.marginXS
+				anchors.verticalCenter: parent.verticalCenter
 
-        RowLayout {
-            id: content
-            anchors.centerIn: parent
-            spacing: Style.marginM
-            anchors.verticalCenter: parent.verticalCenter
-Image {
-    id: windowIcon
-    source: "assets/window.svg"
-    width: 24
-    height: 24
-    fillMode: Image.PreserveAspectFit
-}
-            NText {
-                text: Math.round(pluginApi.mainInstance.curtain) + "%"
-                Layout.alignment: Qt.AlignVCenter
-            }
+        Image {
+            id: windowIcon
+            source: "assets/window.svg"
+            width: 24
+            height: 24
+            fillMode: Image.PreserveAspectFit
+        }
+        NText {
+            text: Math.round(pluginApi.mainInstance.curtain) + "%"
+            Layout.alignment: Qt.AlignVCenter
         }
     }
 
