@@ -1,6 +1,6 @@
 import { db } from "./database.js";
 import { evaluateSunPosition, checkConditionRule } from "./ruleScheduler.js";
-import { setBlind, setCurtain } from "./controllers/hardwareController.js";
+import { setBlind, setCurtain } from "./services/hardwareService.js";
 import { convertTime } from "./utils.js";
 import { RULE_TYPES } from "./utils.js";
 

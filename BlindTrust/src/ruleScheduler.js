@@ -1,7 +1,7 @@
 import { db } from "./database.js";
 import { RULE_TYPES, COMPARATORS } from "./utils.js";
-import { setCurtain } from "./controllers/hardwareController.js";
-import { getWeatherConditions } from "./controllers/weatherController.js";
+import { setCurtain } from "./services/hardwareService.js";
+import { getWeatherConditions } from "./services/weatherService.js";
 import { getFormattedCurrentTime } from "./alarmScheduler.js";
 import { convertTime } from "./utils.js";
 

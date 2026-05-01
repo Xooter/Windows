@@ -9,7 +9,7 @@ import cors from "cors";
 import cron from "node-cron";
 import { checkTimeBasedAlarms } from "./alarmScheduler.js";
 import { checkWeatherBasedRules } from "./ruleScheduler.js";
-import { fetchTemperature } from "./controllers/dioramaHardwareController.js";
+import { fetchTemperature } from "./services/dioramaHardwareService.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

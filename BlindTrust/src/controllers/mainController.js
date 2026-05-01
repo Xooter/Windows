@@ -1,5 +1,5 @@
 import { db } from "../database.js";
-import { setBlind, setCurtain } from "./hardwareController.js";
+import { setBlind, setCurtain } from "../services/hardwareService.js";
 
 export async function getInfo(_req, res) {
   await db.read();
