@@ -2,12 +2,12 @@ import { JSONFilePreset } from "lowdb/node";
 
 export let db;
 
-const FAN_DIRECTION = {
+export const FAN_DIRECTION = {
   VERTICAL: "VERTICAL",
   HORIZONTAL: "HORIZONTAL",
 };
 
-const AC_MODES = {
+export const AC_MODES = {
   COLD: "cold",
   HOT: "hot",
   FAN: "fan",

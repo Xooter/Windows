@@ -4,6 +4,7 @@ import "dotenv/config";
 import alarmsRoutes from "./routes/alarmsRoutes.js";
 import rulesRoutes from "./routes/rulesRoutes.js";
 import mainRoutes from "./routes/mainRoutes.js";
+import acRoutes from "./routes/acRoutes.js";
 import cors from "cors";
 
 import cron from "node-cron";
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/alarms", alarmsRoutes);
 app.use("/rules", rulesRoutes);
 app.use("/", mainRoutes);
+app.use("/ac", acRoutes);
 
 app.use((err, _req, res) => {
   console.error(err.stack);
