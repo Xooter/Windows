@@ -3,6 +3,8 @@
 /node_modules
 /build
 
+src/db.json
+
 # Logs
 logs
 *.log
