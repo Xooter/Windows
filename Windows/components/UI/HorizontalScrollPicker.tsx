@@ -16,24 +16,30 @@ export const HorizontalScrollPicker = memo(
     limit,
     onValueChange,
     defaultValue = 0,
+    min = 0,
+    max,
   }: {
-    limit: number;
+    limit?: number;
     onValueChange: (value: number) => void;
     defaultValue?: number;
+    min?: number;
+    max?: number;
   }) => {
+    const resolvedMin = min;
+    const resolvedMax = max ?? (limit !== undefined ? limit - 1 : 0);
+    const count = resolvedMax - resolvedMin + 1;
+
     const [value, setValue] = useState(defaultValue);
     const scrollViewRef = useRef<ScrollView | null>(null);
-
-    const generateNumbers = (limit: any) => {
-      return Array.from({ length: limit }, (_, i) => i);
-    };
-
-    const numbers = useMemo(() => generateNumbers(limit), [limit]);
+    const numbers = useMemo(
+      () => Array.from({ length: count }, (_, i) => i + resolvedMin),
+      [count, resolvedMin],
+    );
     const animScales = useRef(numbers.map(() => new Animated.Value(1))).current;
 
     useEffect(() => {
       if (scrollViewRef.current) {
-        const scrollToPosition = defaultValue * 70;
+        const scrollToPosition = (defaultValue - resolvedMin) * 70;
         scrollViewRef.current.scrollTo({
           x: scrollToPosition,
           animated: false,
@@ -51,17 +57,10 @@ export const HorizontalScrollPicker = memo(
         snapToInterval={70}
         decelerationRate="fast"
         onScroll={(e: NativeSyntheticEvent<NativeScrollEvent>) => {
-          var index = (e.nativeEvent.contentOffset.x + 70 / 2) / 70;
-
-          if (index < 1) {
-            index = 0;
-          } else {
-            index = Math.floor(index);
-          }
-
+          const rawIndex = (e.nativeEvent.contentOffset.x + 70 / 2) / 70;
+          const index = resolvedMin + (rawIndex < 1 ? 0 : Math.floor(rawIndex));
           setValue(index);
           onValueChange(index);
-
           if (Math.round(index) !== Math.round(value)) {
             Vibration.vibrate(5);
           }
@@ -69,8 +68,9 @@ export const HorizontalScrollPicker = memo(
         scrollEventThrottle={10}
       >
         {numbers.map((num) => {
+          const animIdx = num - resolvedMin;
           useEffect(() => {
-            Animated.timing(animScales[num], {
+            Animated.timing(animScales[animIdx], {
               toValue: value === num ? 2 : 1,
               duration: 200,
               useNativeDriver: true,
@@ -81,23 +81,20 @@ export const HorizontalScrollPicker = memo(
           return (
             <View
               key={num}
-              style={{
-                width: 70,
-                height: 70,
-              }}
+              style={{ width: 70, height: 70 }}
               className="flex items-center justify-center"
             >
               <Animated.Text
                 style={[
-                  value == num ? Styles.title : Styles.subtitle,
+                  value === num ? Styles.title : Styles.subtitle,
                   {
                     fontSize: 25,
                     opacity:
-                      value == num + 1 || value == num - 1 || value == num
+                      value === num + 1 || value === num - 1 || value === num
                         ? 1
                         : 0.2,
-                    color: value == num ? "#7881ff" : "#3c3c3c",
-                    transform: [{ scale: animScales[num] }],
+                    color: value === num ? "#7881ff" : "#3c3c3c",
+                    transform: [{ scale: animScales[animIdx] }],
                   },
                 ]}
               >

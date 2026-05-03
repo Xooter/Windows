@@ -2,26 +2,31 @@ import {
   FontAwesome6,
   FontAwesome,
   FontAwesome5,
-  AntDesign,
   Entypo,
   Ionicons,
 } from "@expo/vector-icons";
-import { Text, View } from "react-native";
-import TitleAC from "./TitleAC";
+import { View } from "react-native";
 import { ACButton } from "./UI/ACButton";
 import { CircularButton } from "./UI/CircularButton";
 import { SegmentedSwitch } from "./UI/SegmentedSwitch";
 import { useState } from "react";
+import { TitleAC } from "./TitleAC";
 
 const ACController = () => {
   const [mode, setMode] = useState<any>();
   const [direction, setDirection] = useState<any>();
+  const [temperature, setTemperature] = useState<number>(16);
 
   return (
     <View className="flex flex-col space-y-3 w-[80%]">
       <View className="flex flex-row">
         <CircularButton onPress={() => {}} icon="power-off" height={110} />
-        <TitleAC />
+        <TitleAC
+          temperature={temperature}
+          onChange={(t) => {
+            setTemperature(t);
+          }}
+        />
       </View>
       <View>
         <SegmentedSwitch
