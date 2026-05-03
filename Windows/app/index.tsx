@@ -2,6 +2,7 @@ import { SendButton } from "@/components/UI/SendButton";
 import CustomSlider from "@/components/UI/Slider";
 import { WeatherNow } from "@/components/WeatherNow";
 import {
+  Text,
   Animated,
   Dimensions,
   ScrollView,
@@ -13,6 +14,13 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ToastManager, { Toast } from "toastify-react-native";
 import CarouselSlider from "@/components/UI/CarouselSlider";
+import { CircularButton } from "@/components/UI/CircularButton";
+import TitleAC from "@/components/TitleAC";
+import { ACButton } from "@/components/UI/ACButton";
+import { SegmentedSwitch } from "@/components/UI/SegmentedSwitch";
+import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { Styles } from "@/utils/Styles";
+import ACController from "@/components/ACController";
 
 const { width } = Dimensions.get("window");
 
@@ -107,8 +115,10 @@ export default function Index() {
         )}
         scrollEventThrottle={16}
       >
-        {/* Página 1 — Curtain */}
-        <View style={{ width }} className="flex-col items-center gap-y-5 pt-2">
+        <View
+          style={{ width }}
+          className="flex-col items-center space-y-5 pt-2"
+        >
           <TitleSlider text="Curtain" porcentage={curtainValue} />
           <CustomSlider
             minValue={0}
@@ -136,10 +146,9 @@ export default function Index() {
           />
         </View>
 
-        <View
-          style={{ width }}
-          className="flex-col items-center gap-y-5 pt-2"
-        ></View>
+        <View style={{ width }} className="flex-col items-center space-y-5">
+          <ACController />
+        </View>
       </ScrollView>
     </View>
   );
