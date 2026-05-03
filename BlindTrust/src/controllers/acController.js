@@ -6,6 +6,22 @@ const status = (s) => {
   return s ? "on" : "off";
 };
 
+export async function handleStatus(_req, res) {
+  db.read();
+  return res.send({
+    power: db.data.ac.power,
+    smart: db.data.ac.smart,
+    economy: db.data.ac.economy,
+    quiet: db.data.ac.quiet,
+    sleep: db.data.ac.sleep,
+    super: db.data.ac.super,
+    direction: db.data.ac.direction,
+    mode: db.data.ac.mode,
+    temp: db.data.ac.temp,
+    fan: db.data.ac.fan,
+  });
+}
+
 export async function handlePower(_req, res) {
   return dioramaService
     .dioramaACPower()

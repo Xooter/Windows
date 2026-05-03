@@ -10,10 +10,12 @@ import {
   handleMode,
   handleTemp,
   handleFan,
+  handleStatus,
 } from "../controllers/acController.js";
 
 const router = Router();
 
+router.get("/", handleStatus);
 router.get("/power", handlePower);
 router.get("/smart", handleSmart);
 router.get("/economy", handleEconomy);
