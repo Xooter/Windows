@@ -9,20 +9,35 @@ import { View } from "react-native";
 import { ACButton } from "./UI/ACButton";
 import { CircularButton } from "./UI/CircularButton";
 import { SegmentedSwitch } from "./UI/SegmentedSwitch";
-import { useState } from "react";
 import { TitleAC } from "./TitleAC";
+import { AC_MODES, FAN_DIRECTION, useAcStore } from "@/hooks/useAcStore";
 
 const ACController = () => {
-  const [mode, setMode] = useState<any>();
-  const [direction, setDirection] = useState<any>();
-  const [temperature, setTemperature] = useState<number>(16);
+  const {
+    ac,
+    toggleDirection,
+    setTemperature,
+    setMode,
+    toggleOn,
+    setSmart,
+    setEconomy,
+    setSuper,
+    setQuiet,
+  } = useAcStore();
+
+  console.log(ac);
 
   return (
     <View className="flex flex-col space-y-3 w-[80%]">
       <View className="flex flex-row">
-        <CircularButton onPress={() => {}} icon="power-off" height={110} />
+        <CircularButton
+          onPress={toggleOn}
+          isOn={ac.on}
+          icon="power-off"
+          height={110}
+        />
         <TitleAC
-          temperature={temperature}
+          temperature={ac.temperature}
           onChange={(t) => {
             setTemperature(t);
           }}
@@ -36,44 +51,44 @@ const ACController = () => {
                 <FontAwesome6
                   name="snowflake"
                   size={20}
-                  color={mode === "cold" ? "#fff" : "#7881ff"}
+                  color={ac.mode === AC_MODES.COLD ? "#fff" : "#7881ff"}
                 />
               ),
-              value: "cold",
+              value: AC_MODES.COLD,
             },
             {
               label: (
                 <Ionicons
                   name="flame"
                   size={20}
-                  color={mode === "hot" ? "#fff" : "#7881ff"}
+                  color={ac.mode === AC_MODES.HOT ? "#fff" : "#7881ff"}
                 />
               ),
-              value: "hot",
+              value: AC_MODES.HOT,
             },
             {
               label: (
                 <FontAwesome5
                   name="wind"
                   size={20}
-                  color={mode === "fan" ? "#fff" : "#7881ff"}
+                  color={ac.mode === AC_MODES.FAN ? "#fff" : "#7881ff"}
                 />
               ),
-              value: "fan",
+              value: AC_MODES.FAN,
             },
             {
               label: (
                 <FontAwesome6
                   name="droplet"
                   size={20}
-                  color={mode === "humidity" ? "#fff" : "#7881ff"}
+                  color={ac.mode === AC_MODES.HUMIDITY ? "#fff" : "#7881ff"}
                 />
               ),
-              value: "humidity",
+              value: AC_MODES.HUMIDITY,
             },
           ]}
-          value={mode}
-          onChange={setMode}
+          value={ac.mode}
+          onChange={(val) => setMode(val)}
         />
       </View>
       <View
@@ -81,12 +96,18 @@ const ACController = () => {
         style={{ flexDirection: "row", columnGap: 8 }}
       >
         <ACButton
-          onPress={() => {}}
+          isOn={ac.smart}
+          onPress={() => {
+            setSmart();
+          }}
           icon={<FontAwesome6 name="brain" size={20} color="#222" />}
           text="Smart"
         />
         <ACButton
-          onPress={() => {}}
+          isOn={ac.economy}
+          onPress={() => {
+            setEconomy(!ac.economy);
+          }}
           icon={<FontAwesome6 name="leaf" size={20} color="#222" />}
           text="Economy"
         />
@@ -96,12 +117,18 @@ const ACController = () => {
         style={{ flexDirection: "row", columnGap: 8 }}
       >
         <ACButton
-          onPress={() => {}}
+          isOn={ac.quiet}
+          onPress={() => {
+            setQuiet(!ac.quiet);
+          }}
           icon={<FontAwesome5 name="volume-mute" size={20} color="#222" />}
           text="Quiet"
         />
         <ACButton
-          onPress={() => {}}
+          isOn={ac.sleep}
+          onPress={() => {
+            setQuiet(!ac.sleep);
+          }}
           icon={<Entypo name="moon" size={20} color="#222" />}
           text="Sleep"
         />
@@ -114,24 +141,30 @@ const ACController = () => {
                 <FontAwesome
                   name="arrows-v"
                   size={18}
-                  color={direction === "horizontal" ? "#fff" : "#7881ff"}
+                  color={
+                    ac.direction === FAN_DIRECTION.HORIZONTAL
+                      ? "#fff"
+                      : "#7881ff"
+                  }
                 />
               ),
-              value: "horizontal",
+              value: FAN_DIRECTION.HORIZONTAL,
             },
             {
               label: (
                 <FontAwesome
                   name="arrows-h"
                   size={18}
-                  color={direction === "vertical" ? "#fff" : "#7881ff"}
+                  color={
+                    ac.direction === FAN_DIRECTION.VERTICAL ? "#fff" : "#7881ff"
+                  }
                 />
               ),
-              value: "vertical",
+              value: FAN_DIRECTION.VERTICAL,
             },
           ]}
-          value={direction}
-          onChange={setDirection}
+          value={ac.direction}
+          onChange={toggleDirection}
         />
       </View>
       <View
@@ -140,7 +173,10 @@ const ACController = () => {
       >
         <CircularButton onPress={() => {}} icon="fan" size={20} height={50} />
         <ACButton
-          onPress={() => {}}
+          isOn={ac.super}
+          onPress={() => {
+            setSuper(!ac.super);
+          }}
           icon={<Ionicons name="flame" size={20} color="#222" />}
           text="Super"
         />

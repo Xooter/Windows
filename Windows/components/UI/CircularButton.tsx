@@ -1,4 +1,4 @@
-import { Styles } from "@/utils/Styles";
+import { useAcStore } from "@/hooks/useAcStore";
 import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { Animated, Easing, TouchableOpacity } from "react-native";
@@ -8,12 +8,15 @@ export const CircularButton = ({
   icon,
   height,
   size = 35,
+  isOn,
 }: {
   onPress: () => void;
   icon: string;
   height?: number;
   size?: number;
+  isOn?: boolean;
 }) => {
+  const { disabled } = useAcStore();
   const buttonScale = useRef(new Animated.Value(1)).current;
 
   const pressButton = () => {
@@ -35,16 +38,24 @@ export const CircularButton = ({
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.95} onPress={pressButton}>
+    <TouchableOpacity
+      activeOpacity={0.95}
+      onPress={pressButton}
+      style={{ opacity: disabled ? 0.5 : 1 }}
+      disabled={disabled}
+    >
       <Animated.View
-        className="rounded-xl border-2 flex justify-center items-center aspect-square"
+        className="rounded-xl border-4 flex justify-center items-center aspect-square"
         style={[
           { transform: [{ scale: buttonScale }] },
-          Styles.shadow,
-          { height: height, backgroundColor: "#222", borderColor: "#222" },
+          {
+            height: height,
+            backgroundColor: isOn ? "#EB3678" : "transparent",
+            borderColor: isOn ? "#EB3678" : "#222",
+          },
         ]}
       >
-        <FontAwesome6 name={icon} size={size} color="#fff" />
+        <FontAwesome6 name={icon} size={size} color={isOn ? "#fff" : "#222"} />
       </Animated.View>
     </TouchableOpacity>
   );

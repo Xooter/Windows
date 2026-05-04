@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { HorizontalScrollPicker } from "./UI/HorizontalScrollPicker";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useAcStore } from "@/hooks/useAcStore";
 
 export const TitleAC = ({
   temperature,
@@ -18,6 +19,7 @@ export const TitleAC = ({
   temperature: number;
   onChange: (value: number) => void;
 }) => {
+  const { disabled } = useAcStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [tempValue, setTempValue] = useState(temperature);
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -60,6 +62,7 @@ export const TitleAC = ({
         <TouchableOpacity
           onPress={() => adjust(-1)}
           activeOpacity={0.7}
+          disabled={disabled}
           style={{
             width: 36,
             height: 36,
@@ -68,12 +71,18 @@ export const TitleAC = ({
             borderColor: "#222",
             alignItems: "center",
             justifyContent: "center",
+            opacity: disabled ? 0.5 : 1,
           }}
         >
           <FontAwesome6 name="caret-down" size={18} color="#363636" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={press} activeOpacity={0.8}>
+        <TouchableOpacity
+          onPress={press}
+          activeOpacity={0.8}
+          disabled={disabled}
+          style={{ opacity: disabled ? 0.5 : 1 }}
+        >
           <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
             <Text style={{ ...Styles.title, fontSize: 40, color: "#363636" }}>
               {temperature}°
@@ -84,6 +93,7 @@ export const TitleAC = ({
         <TouchableOpacity
           onPress={() => adjust(1)}
           activeOpacity={0.7}
+          disabled={disabled}
           style={{
             width: 36,
             height: 36,
@@ -92,6 +102,7 @@ export const TitleAC = ({
             borderColor: "#222",
             alignItems: "center",
             justifyContent: "center",
+            opacity: disabled ? 0.5 : 1,
           }}
         >
           <FontAwesome6 name="caret-up" size={18} color="#363636" />

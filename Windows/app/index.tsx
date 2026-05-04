@@ -14,6 +14,7 @@ import axios from "axios";
 import ToastManager, { Toast } from "toastify-react-native";
 import CarouselSlider from "@/components/UI/CarouselSlider";
 import ACController from "@/components/ACController";
+import { useAcStore } from "@/hooks/useAcStore";
 
 const { width } = Dimensions.get("window");
 
@@ -28,6 +29,7 @@ export default function Index() {
   const [sending, setSending] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
+  useAcStore.getState().fetchStatus();
   const [currentValues, setCurrentValues] = useState<CurrentValues>({
     curtain: 0,
     blind: 0,

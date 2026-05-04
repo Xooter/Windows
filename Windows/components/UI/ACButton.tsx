@@ -1,3 +1,4 @@
+import { useAcStore } from "@/hooks/useAcStore";
 import { Styles } from "@/utils/Styles";
 import React, { useRef } from "react";
 import { Text, Animated, Easing, TouchableOpacity } from "react-native";
@@ -6,12 +7,15 @@ export const ACButton = ({
   onPress,
   icon,
   text,
+  isOn = false,
 }: {
   onPress: () => void;
   icon: React.ReactNode;
   text: string;
+  isOn: boolean;
 }) => {
   const buttonScale = useRef(new Animated.Value(1)).current;
+  const { disabled } = useAcStore();
 
   const pressButton = () => {
     onPress();
@@ -35,17 +39,28 @@ export const ACButton = ({
     <TouchableOpacity
       activeOpacity={0.95}
       onPress={pressButton}
-      style={{ flex: 1 }}
+      style={{ flex: 1, opacity: disabled ? 0.5 : 1 }}
+      disabled={disabled}
     >
       <Animated.View
         className="rounded-xl border-2 py-1 flex flex-row items-center justify-center space-x-2"
         style={[
           { transform: [{ scale: buttonScale }] },
-          { borderColor: "#222", height: 50 },
+          {
+            backgroundColor: isOn ? "#222" : "transparent",
+            borderColor: "#222",
+            height: 50,
+          },
         ]}
       >
         {icon}
-        <Text style={{ ...Styles.subtitle, fontSize: 24, color: "#363636" }}>
+        <Text
+          style={{
+            ...Styles.subtitle,
+            fontSize: 24,
+            color: isOn ? "#fff" : "#363636",
+          }}
+        >
           {text}
         </Text>
       </Animated.View>

@@ -1,3 +1,4 @@
+import { useAcStore } from "@/hooks/useAcStore";
 import { Styles } from "@/utils/Styles";
 import { useRef, useState } from "react";
 import { Animated, Pressable, Text, View } from "react-native";
@@ -6,8 +7,8 @@ type Option = { label: string | React.ReactNode; value: string };
 
 type SegmentedSwitchProps = {
   options: Option[];
-  value: string;
-  onChange: (value: string) => void;
+  value: any;
+  onChange: (value: any) => void;
 };
 
 export function SegmentedSwitch({
@@ -15,6 +16,7 @@ export function SegmentedSwitch({
   value,
   onChange,
 }: SegmentedSwitchProps) {
+  const { disabled } = useAcStore();
   const [widths, setWidths] = useState<number[]>([]);
   const pillX = useRef(new Animated.Value(0)).current;
   const pillW = useRef(new Animated.Value(0)).current;
@@ -83,6 +85,7 @@ export function SegmentedSwitch({
       {options.map((opt, idx) => (
         <Pressable
           key={opt.value}
+          disabled={disabled}
           onLayout={(e) => onFirstLayout(idx, e.nativeEvent.layout.width)}
           onPress={() => select(idx)}
           style={{
@@ -90,6 +93,8 @@ export function SegmentedSwitch({
             alignItems: "center",
             paddingVertical: 6,
             borderRadius: 9,
+
+            opacity: disabled ? 0.6 : 1,
           }}
         >
           {typeof opt.label === "string" ? (
