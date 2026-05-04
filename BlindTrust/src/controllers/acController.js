@@ -17,7 +17,7 @@ export async function handleStatus(_req, res) {
     super: db.data.ac.super,
     direction: db.data.ac.direction,
     mode: db.data.ac.mode,
-    temp: db.data.ac.temp,
+    temperature: db.data.ac.temperature,
     fan: db.data.ac.fan,
   });
 }
