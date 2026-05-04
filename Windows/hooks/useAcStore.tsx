@@ -21,7 +21,7 @@ interface AcState {
   on: boolean;
   mode: AcMode;
   temperature: number;
-  fan_speed: number;
+  fan: number;
   super: boolean;
   economy: boolean;
   smart: boolean;
@@ -51,7 +51,7 @@ const DEFAULT_AC: AcState = {
   on: false,
   mode: AC_MODES.COLD,
   temperature: 22,
-  fan_speed: 1,
+  fan: 1,
   super: false,
   economy: false,
   smart: false,
@@ -211,9 +211,7 @@ export const useAcStore = create<AcStore>((set, get) => ({
     );
   },
 
-  setFanSpeed: async (fan_speed) => {
-    await optimistic(set, get, { fan_speed }, () =>
-      request("/fan", { speed: fan_speed }),
-    );
+  setFanSpeed: async (fan) => {
+    await optimistic(set, get, { fan }, () => request("/fan", { value: fan }));
   },
 }));

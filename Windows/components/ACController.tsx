@@ -11,6 +11,7 @@ import { CircularButton } from "./UI/CircularButton";
 import { SegmentedSwitch } from "./UI/SegmentedSwitch";
 import { TitleAC } from "./TitleAC";
 import { AC_MODES, FAN_DIRECTION, useAcStore } from "@/hooks/useAcStore";
+import { FanSpeedButton } from "./FanSpeedButton";
 
 const ACController = () => {
   const {
@@ -24,8 +25,6 @@ const ACController = () => {
     setSuper,
     setQuiet,
   } = useAcStore();
-
-  console.log(ac);
 
   return (
     <View className="flex flex-col space-y-3 w-[80%]">
@@ -171,7 +170,7 @@ const ACController = () => {
         className="flex flex-row"
         style={{ flexDirection: "row", columnGap: 8 }}
       >
-        <CircularButton onPress={() => {}} icon="fan" size={20} height={50} />
+        <FanSpeedButton />
         <ACButton
           isOn={ac.super}
           onPress={() => {
