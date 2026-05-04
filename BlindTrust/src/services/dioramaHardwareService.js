@@ -113,7 +113,7 @@ export async function dioramaACTemp(value) {
 // between 1..4
 export async function dioramaACFan(value) {
   return ax.get(`/ac/fan?speed=${value}`).then(async () => {
-    db.data.ac.fan_speed = !db.data.ac.fan_speed;
+    db.data.ac.fan_speed = value;
     db.write();
   });
 }
