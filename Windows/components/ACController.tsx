@@ -105,7 +105,13 @@ const ACController = () => {
           onPress={() => {
             setSmart();
           }}
-          icon={<FontAwesome6 name="brain" size={20} color="#222" />}
+          icon={
+            <FontAwesome6
+              name="brain"
+              size={20}
+              color={ac.smart ? "#fff" : "#222"}
+            />
+          }
           text="Smart"
         />
         <ACButton
@@ -114,7 +120,13 @@ const ACController = () => {
           onPress={() => {
             setEconomy(!ac.economy);
           }}
-          icon={<FontAwesome6 name="leaf" size={20} color="#222" />}
+          icon={
+            <FontAwesome6
+              name="leaf"
+              size={20}
+              color={ac.economy ? "#fff" : "#222"}
+            />
+          }
           text="Economy"
         />
       </View>
@@ -128,7 +140,13 @@ const ACController = () => {
           onPress={() => {
             setQuiet(!ac.quiet);
           }}
-          icon={<FontAwesome5 name="volume-mute" size={20} color="#222" />}
+          icon={
+            <FontAwesome5
+              name="volume-mute"
+              size={20}
+              color={ac.quiet ? "#fff" : "#222"}
+            />
+          }
           text="Quiet"
         />
         <ACButton
@@ -137,7 +155,9 @@ const ACController = () => {
           onPress={() => {
             setQuiet(!ac.sleep);
           }}
-          icon={<Entypo name="moon" size={20} color="#222" />}
+          icon={
+            <Entypo name="moon" size={20} color={ac.sleep ? "#fff" : "#222"} />
+          }
           text="Sleep"
         />
       </View>
@@ -191,7 +211,13 @@ const ACController = () => {
           onPress={() => {
             setSuper(!ac.super);
           }}
-          icon={<Ionicons name="flame" size={20} color="#222" />}
+          icon={
+            <Ionicons
+              name="flame"
+              size={20}
+              color={ac.super ? "#fff" : "#222"}
+            />
+          }
           text="Super"
         />
       </View>
