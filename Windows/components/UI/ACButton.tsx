@@ -1,4 +1,3 @@
-import { useAcStore } from "@/hooks/useAcStore";
 import { Styles } from "@/utils/Styles";
 import React, { useRef } from "react";
 import { Text, Animated, Easing, TouchableOpacity } from "react-native";
@@ -8,14 +7,15 @@ export const ACButton = ({
   icon,
   text,
   isOn = false,
+  disabled,
 }: {
   onPress: () => void;
   icon: React.ReactNode;
   text: string;
   isOn: boolean;
+  disabled: boolean;
 }) => {
   const buttonScale = useRef(new Animated.Value(1)).current;
-  const { disabled } = useAcStore();
 
   const pressButton = () => {
     onPress();

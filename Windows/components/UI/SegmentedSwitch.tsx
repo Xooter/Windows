@@ -1,4 +1,3 @@
-import { useAcStore } from "@/hooks/useAcStore";
 import { Styles } from "@/utils/Styles";
 import { useRef, useState } from "react";
 import { Animated, Pressable, Text, View } from "react-native";
@@ -9,14 +8,15 @@ type SegmentedSwitchProps = {
   options: Option[];
   value: any;
   onChange: (value: any) => void;
+  disabled: boolean;
 };
 
 export function SegmentedSwitch({
   options,
   value,
   onChange,
+  disabled,
 }: SegmentedSwitchProps) {
-  const { disabled } = useAcStore();
   const [widths, setWidths] = useState<number[]>([]);
   const pillX = useRef(new Animated.Value(0)).current;
   const pillW = useRef(new Animated.Value(0)).current;

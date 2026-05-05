@@ -1,4 +1,3 @@
-import { useAcStore } from "@/hooks/useAcStore";
 import { FontAwesome6 } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { Animated, Easing, TouchableOpacity } from "react-native";
@@ -9,14 +8,15 @@ export const CircularButton = ({
   height,
   size = 35,
   isOn,
+  disabled,
 }: {
   onPress: () => void;
   icon: string;
   height?: number;
   size?: number;
   isOn?: boolean;
+  disabled: boolean;
 }) => {
-  const { disabled } = useAcStore();
   const buttonScale = useRef(new Animated.Value(1)).current;
 
   const pressButton = () => {

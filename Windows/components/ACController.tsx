@@ -16,7 +16,9 @@ import { FanSpeedButton } from "./FanSpeedButton";
 const ACController = () => {
   const {
     ac,
+    disabled,
     toggleDirection,
+    setFanSpeed,
     setTemperature,
     setMode,
     toggleOn,
@@ -30,12 +32,14 @@ const ACController = () => {
     <View className="flex flex-col space-y-3 w-[80%]">
       <View className="flex flex-row">
         <CircularButton
+          disabled={disabled}
           onPress={toggleOn}
           isOn={ac.on}
           icon="power-off"
           height={110}
         />
         <TitleAC
+          disabled={disabled}
           temperature={ac.temperature}
           onChange={(t) => {
             setTemperature(t);
@@ -44,6 +48,7 @@ const ACController = () => {
       </View>
       <View>
         <SegmentedSwitch
+          disabled={disabled}
           options={[
             {
               label: (
@@ -95,6 +100,7 @@ const ACController = () => {
         style={{ flexDirection: "row", columnGap: 8 }}
       >
         <ACButton
+          disabled={disabled}
           isOn={ac.smart}
           onPress={() => {
             setSmart();
@@ -103,6 +109,7 @@ const ACController = () => {
           text="Smart"
         />
         <ACButton
+          disabled={disabled}
           isOn={ac.economy}
           onPress={() => {
             setEconomy(!ac.economy);
@@ -116,6 +123,7 @@ const ACController = () => {
         style={{ flexDirection: "row", columnGap: 8 }}
       >
         <ACButton
+          disabled={disabled}
           isOn={ac.quiet}
           onPress={() => {
             setQuiet(!ac.quiet);
@@ -124,6 +132,7 @@ const ACController = () => {
           text="Quiet"
         />
         <ACButton
+          disabled={disabled}
           isOn={ac.sleep}
           onPress={() => {
             setQuiet(!ac.sleep);
@@ -134,6 +143,7 @@ const ACController = () => {
       </View>
       <View>
         <SegmentedSwitch
+          disabled={disabled}
           options={[
             {
               label: (
@@ -170,8 +180,13 @@ const ACController = () => {
         className="flex flex-row"
         style={{ flexDirection: "row", columnGap: 8 }}
       >
-        <FanSpeedButton />
+        <FanSpeedButton
+          disabled={disabled}
+          onPress={(val) => setFanSpeed(val)}
+          value={ac.fan}
+        />
         <ACButton
+          disabled={disabled}
           isOn={ac.super}
           onPress={() => {
             setSuper(!ac.super);

@@ -10,16 +10,16 @@ import {
 } from "react-native";
 import { HorizontalScrollPicker } from "./UI/HorizontalScrollPicker";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useAcStore } from "@/hooks/useAcStore";
 
 export const TitleAC = ({
   temperature,
   onChange,
+  disabled,
 }: {
   temperature: number;
+  disabled: boolean;
   onChange: (value: number) => void;
 }) => {
-  const { disabled } = useAcStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [tempValue, setTempValue] = useState(temperature);
   const scaleAnim = useRef(new Animated.Value(1)).current;

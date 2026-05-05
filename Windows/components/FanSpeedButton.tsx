@@ -1,4 +1,3 @@
-import { useAcStore } from "@/hooks/useAcStore";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useRef } from "react";
 import { Animated, Easing, TouchableOpacity, View } from "react-native";
@@ -6,16 +5,21 @@ import { Animated, Easing, TouchableOpacity, View } from "react-native";
 export const FanSpeedButton = ({
   height,
   size = 30,
+  disabled,
+  onPress,
+  value,
 }: {
   height?: number;
   size?: number;
+  disabled: boolean;
+  onPress: (val: number) => void;
+  value: number;
 }) => {
-  const { disabled, ac, setFanSpeed } = useAcStore();
   const buttonScale = useRef(new Animated.Value(1)).current;
 
   const pressButton = () => {
-    const next = (ac.fan || 1) >= 4 ? 1 : (ac.fan || 1) + 1;
-    setFanSpeed(next);
+    const next = (value || 1) >= 4 ? 1 : (value || 1) + 1;
+    onPress(next);
     Animated.sequence([
       Animated.timing(buttonScale, {
         toValue: 0.8,
@@ -54,7 +58,7 @@ export const FanSpeedButton = ({
                 key={level}
                 name="caret-right"
                 size={10}
-                color={ac.fan >= level ? "#222" : "#ccc"}
+                color={value >= level ? "#222" : "#ccc"}
               />
             ))}
           </View>
