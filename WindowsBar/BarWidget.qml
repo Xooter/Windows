@@ -12,38 +12,112 @@ Item {
     property string section: ""
     property ShellScreen screen
 
-    readonly property real capsuleHeight: Style.getCapsuleHeightForScreen(screen?.name ?? "")
+    property real temperature: 0
+    property int humidity: 0
+
+    readonly property real capsuleHeight:
+        Style.getCapsuleHeightForScreen(screen?.name ?? "")
 
     implicitHeight: capsuleHeight
     implicitWidth: content.implicitWidth + Style.marginM * 2
 
-    RowLayout {
-        id: content
-        anchors.centerIn: parent
-        spacing: Style.marginXS
-				anchors.verticalCenter: parent.verticalCenter
 
-        Image {
-            id: windowIcon
-            source: "assets/window.svg"
-            width: 24
-            height: 24
-            fillMode: Image.PreserveAspectFit
+    function fetchTemp() {
+        let xhr = new XMLHttpRequest()
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+
+                if (xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText)
+
+                    root.temperature = data.temperature
+                    root.humidity = data.humidity
+
+                } else {
+                    console.log("Error fetching temp:", xhr.status)
+                }
+            }
         }
-        NText {
-            text: Math.round(pluginApi.mainInstance.curtain) + "%"
-            Layout.alignment: Qt.AlignVCenter
-        }
+
+        xhr.open("GET", "http://192.168.3.211:4002/temp")
+        xhr.send()
     }
+
+
+    Component.onCompleted: {
+        fetchTemp()
+    }
+
+
+    Timer {
+        interval: 30000
+        running: true
+        repeat: true
+        onTriggered: root.fetchTemp()
+    }
+
+
+RowLayout {
+    id: content
+
+    anchors.centerIn: parent
+    spacing: Style.marginS
+
+
+    Image {
+        id: temperatureIcon
+
+        source: {
+            if (root.temperature < 15)
+                return "assets/termometer_low.svg"
+            else if (root.temperature < 28)
+                return "assets/termometer_med.svg"
+            else
+                return "assets/termometer_full.svg"
+        }
+
+        width: 20
+        height: 20
+
+        fillMode: Image.PreserveAspectFit
+    }
+
+
+    NText {
+        text: root.temperature.toFixed(1) + "°C"
+        Layout.alignment: Qt.AlignVCenter
+    }
+
+
+    Image {
+        source: "assets/droplet.svg"
+
+        width: 20
+        height: 20
+
+        fillMode: Image.PreserveAspectFit
+    }
+
+
+    NText {
+        text: root.humidity + "%"
+        Layout.alignment: Qt.AlignVCenter
+    }
+}
+
 
     MouseArea {
         id: mouseArea
+
         anchors.fill: parent
+
         hoverEnabled: false
         cursorShape: Qt.PointingHandCursor
+
         onClicked: {
             if (pluginApi)
-                pluginApi.openPanel(root.screen, this);
+                pluginApi.openPanel(root.screen, this)
         }
     }
 }
