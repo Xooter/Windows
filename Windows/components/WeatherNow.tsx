@@ -1,14 +1,21 @@
 import { Styles } from "@/utils/Styles";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { weatherConditions } from "@/utils/WeatherConditions";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import axios from "axios";
 import { Weather } from "@/models/Weather";
+import { Toast } from "toastify-react-native";
+
+type RoomTemp = {
+  temperature: number;
+  humidity: number;
+};
 
 export const WeatherNow = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
+  const [roomTemp, setRoomTemp] = useState<RoomTemp | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -26,62 +33,95 @@ export const WeatherNow = () => {
         .finally(() => setLoading(false));
     };
 
+    const getRoomTemp = async () => {
+      await axios
+        .get(
+          `http://${process.env.EXPO_PUBLIC_BASE_BACK}.duckdns.org:4002/temp`,
+          {
+            timeout: 3000,
+          },
+        )
+        .then((response) => {
+          setRoomTemp(response.data);
+        })
+        .catch((error) => {
+          if (error.code === "ECONNABORTED") {
+            console.log("Request timed out");
+          } else {
+            Toast.error("Server is not available");
+          }
+        });
+    };
+
+    getRoomTemp();
     getCurrentWeather();
   }, []);
 
   return (
     <View
-      className="flex-row bg-light items-center justify-between rounded-xl w-[90%] py-5 px-8 mt-20"
+      className="flex-col bg-light items-center justify-between rounded-xl w-[90%] py-5 px-8 mt-20"
       style={{ ...Styles.shadow, backgroundColor: "#f8faff" }}
     >
-      {!loading ? (
-        <>
-          <View>
-            <Text
-              style={{ ...Styles.paragraph, fontSize: 20, opacity: 0.8 }}
-              className="capitalize"
-            >
-              {weather?.weather[0].main}
-            </Text>
-            <View className="flex-row items-end">
-              <Text style={[styles.temperature]}>
-                {weather?.main.temp.toFixed(0)}ᵒ
+      <View className="flex flex-row w-full justify-between items-center">
+        {!loading ? (
+          <>
+            <View>
+              <Text
+                style={{ ...Styles.paragraph, fontSize: 20, opacity: 0.8 }}
+                className="capitalize"
+              >
+                {weather?.weather[0].main}
               </Text>
-              <Text style={styles.temperatureMin}>/</Text>
-              <Text style={styles.temperatureMin}>
-                {weather?.main.temp_min.toFixed(0)}ᵒ
-              </Text>
+              <View className="flex-row items-end">
+                <Text style={[styles.temperature]}>
+                  {weather?.main.temp.toFixed(0)}ᵒ
+                </Text>
+                <Text style={styles.temperatureMin}>/</Text>
+                <Text style={styles.temperatureMin}>
+                  {weather?.main.temp_min.toFixed(0)}ᵒ
+                </Text>
+              </View>
+
+              <View className="flex-row items-center gap-x-2">
+                <FontAwesome6 name="wind" size={14} color="black" />
+                <Text style={{ ...Styles.paragraph, fontSize: 20 }}>
+                  <Text style={Styles.title}>{weather?.wind.speed}</Text> km/h
+                </Text>
+              </View>
             </View>
 
-            <View className="flex-row items-center gap-x-2">
-              <FontAwesome6 name="wind" size={14} color="black" />
-              <Text style={{ ...Styles.paragraph, fontSize: 20 }}>
-                <Text style={Styles.title}>{weather?.wind.speed}</Text> km/h
-              </Text>
-            </View>
+            <MaterialCommunityIcons
+              size={70}
+              name={
+                weatherConditions[
+                  (weather?.weather[0]
+                    .main as keyof typeof weatherConditions) || "Snow"
+                ].icon as any
+              }
+              color={
+                weatherConditions[
+                  (weather?.weather[0]
+                    .main as keyof typeof weatherConditions) || "Snow"
+                ].color
+              }
+            />
+          </>
+        ) : (
+          <View className="flex items-center justify-center w-full">
+            <ActivityIndicator size="large" color="#222" />
           </View>
+        )}
+      </View>
 
-          <MaterialCommunityIcons
-            size={70}
-            name={
-              weatherConditions[
-                (weather?.weather[0].main as keyof typeof weatherConditions) ||
-                  "Snow"
-              ].icon as any
-            }
-            color={
-              weatherConditions[
-                (weather?.weather[0].main as keyof typeof weatherConditions) ||
-                  "Snow"
-              ].color
-            }
-          />
-        </>
-      ) : (
-        <View className="flex items-center justify-center w-full">
-          <ActivityIndicator size="large" color="#222" />
-        </View>
-      )}
+      <View className="flex-row items-center justify-end w-full mt-2 space-x-2">
+        <Entypo name="home" size={20} color="#EB3678" />
+        <Text style={{ ...Styles.title, fontSize: 20, color: "#EB3678" }}>
+          {roomTemp?.temperature}ᵒ
+        </Text>
+        <Text style={{ ...Styles.title, fontSize: 20, color: "#EB3678" }}>
+          {roomTemp?.humidity}%
+        </Text>
+      </View>
     </View>
   );
 };
